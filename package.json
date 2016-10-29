@@ -1,0 +1,23 @@
+{
+  "name": "teachit",
+  "version": "1.0.0",
+  "description": "A platform to teach everything!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jashjhaveri/TeachIt.git"
+  },
+  "author": "Jash Jhaveri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jashjhaveri/TeachIt/issues"
+  },
+  "homepage": "https://github.com/jashjhaveri/TeachIt#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "mongodb": "^2.2.11"
+  }
+}
