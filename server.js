@@ -1,12 +1,38 @@
-'use strict';
+var express  = require('express');
+var app      = express();
+var port     = process.env.PORT || 8080;
+var mongoose = require('mongoose');
+var passport = require('passport');
+var flash    = require('connect-flash');
+var path = require('path'),
+    fs = require('fs');
+ var http = require('http')
+var server = http.createServer(app)
 
-var express= require('express');
-var routes = require('./app/routes/index.js');
 
-var app = express();
+var configDB = require('./config/database.js');
 
-routes(app);
+mongoose.connect(configDB.url); 
 
-app.listen(3000, function() {
-	console.log('Listening on port 3000...');
+require('./config/passport')(passport); 
+
+app.configure(function() {
+
+	app.use(express.cookieParser());
+	app.use(express.bodyParser()); 
+	app.use(express.static(path.join(__dirname, 'public')));
+	app.set('views', __dirname + '/views');
+	app.engine('html', require('ejs').renderFile);
+	app.use(express.session({ secret: 'teachit' })); 
+	app.use(express.bodyParser({uploadDir:'/uploads'}));
+	app.use(passport.initialize());
+	app.use(passport.session()); 
+	app.use(flash()); 
+
 });
+
+
+require('./app/routes.js')(app, passport,server); 
+
+server.listen(port);
+console.log('Listening  to  port ' + port);
