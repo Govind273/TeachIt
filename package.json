@@ -22,6 +22,7 @@
     "connect-flash": "^0.1.1",
     "ejs": "^2.5.2",
     "express": "^3.4.8",
+    "material-design-lite": "^1.2.1",
     "mongodb": "^2.2.11",
     "mongoose": "^4.6.5",
     "now": "^0.28.0",

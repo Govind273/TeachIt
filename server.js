@@ -21,6 +21,7 @@ app.configure(function() {
 	app.use(express.cookieParser());
 	app.use(express.bodyParser()); 
 	app.use(express.static(path.join(__dirname, 'public')));
+	app.use('/scripts', express.static(__dirname + '/node_modules/material-design-lite/'));
 	app.set('views', __dirname + '/views');
 	app.engine('html', require('ejs').renderFile);
 	app.use(express.session({ secret: 'teachit' })); 
