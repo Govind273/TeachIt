@@ -47,7 +47,7 @@ module.exports = function(passport) {
                 User.findOne({ 'user.email' :  email }, function(err, user) {
             	    if (err){ return done(err);}
                     if (user) {
-                        return done(null, false, req.flash('signuperror', 'User already exists'));
+                        return done(null, false, req.flash('registererror', 'User already exists'));
                     } else {
                     	console.log(req);
                         var newUser            = new User();
@@ -65,7 +65,7 @@ module.exports = function(passport) {
                     }
 
                 });
-            } else {
+            } /*else {
             	console.log(req);
                 var user            = req.user;
 				user.user.firstname  = req.body.firstname;
@@ -80,7 +80,7 @@ module.exports = function(passport) {
                     return done(null, user);
                 });
 
-            }
+            }*/
 
         });
     }));

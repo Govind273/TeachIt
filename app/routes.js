@@ -11,7 +11,7 @@ module.exports = function(app, passport,server) {
 			if(request.user.user.role == 'uploader') {
 				response.redirect('/uploader');
 			} else {
-				response.redirect('/homepage');
+				response.redirect('/viewer');
 			}
 		}
 		response.render('index.html');
@@ -22,19 +22,19 @@ module.exports = function(app, passport,server) {
 			if(request.user.user.role == 'uploader') {
 				response.redirect('/uploader');
 			} else {
-				response.redirect('/homepage');
+				response.redirect('/viewer');
 			}
 		} else {
 			response.render('login.html', { message: request.flash('error') });	
 		}
 	});
 
-	app.get('/homepage', function(request, response) {
+	app.get('/viewer', function(request, response) {
 		if(request.isAuthenticated()) {
 			if(request.user.user.role == 'uploader') {
 				response.redirect('/uploader');
 			} else {
-				response.render('homepage.html', { message: request.flash('error') });
+				response.render('viewer.html', { message: request.flash('error') });
 			}
 		} else {
 			response.redirect('/login');	
@@ -46,7 +46,7 @@ module.exports = function(app, passport,server) {
 			if(request.user.user.role == 'uploader') {
 				response.render('uploader_dashboard.html', { message: request.flash('error') });
 			} else {
-				response.redirect('/homepage');
+				response.redirect('/viewer');
 			}
 		} else {
 			response.redirect('/login');	
@@ -62,14 +62,14 @@ module.exports = function(app, passport,server) {
 			    if(user.user.role === "uploader") {
 					res.redirect('/uploader');
 				} else {
-					res.redirect('/homepage');
+					res.redirect('/viewer');
 				}
 			});
 		}
 	);
 
 	app.post('/register', passport.authenticate('register', {
-		successRedirect : '/homepage',
+		successRedirect : '/viewer',
 		failureRedirect : '/login', 
 		failureFlash : true 
 	}));
@@ -84,7 +84,7 @@ module.exports = function(app, passport,server) {
 			if(request.user.user.role == 'uploader') {
 				response.render('create_course.html', { message: request.flash('error') });
 			} else {
-				response.redirect('/homepage');
+				response.redirect('/viewer');
 			}
 		} else {
 			response.redirect('/login');	

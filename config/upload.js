@@ -1,4 +1,4 @@
-
+var User = require('../app/models/user');
 
 module.exports = function(app, server, multer, mongoose, Grid, fs) {
 
@@ -42,6 +42,20 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
           writeStream.on('close', function(file) {
             console.log(file.filename + 'Written to DB');
           });
+
+          var course_name = "course1";
+
+          console.log(req.user.user);
+          var user = req.user.user;
+          var email = user.email;
+
+          User.findOne({ 'user.email' : email  }, function(err, user) {
+                if (err){ return done(err);}
+                console.log(user);
+                user.user.courses_created.course_name = course_name;
+                user.user.courses_created.videos.video_name = req.files.userPhoto.originalFilename;
+                user.save();
+            });
 
           res.end("File is uploaded");
       });
