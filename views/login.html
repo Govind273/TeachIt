@@ -60,13 +60,31 @@
                   <b class="mdl-color-text--accent">Error message goes here</b>
                  
 
-                  <form method="POST" action="/signup">
+                  <form method="POST" action="/register">
                       <input type="hidden" name="action" value="register"/>
+                      
+                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                          <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_new_firstname">First Name</label>
+                          <input class="mdl-textfield__input" type="text" id="textfield_new_firstname" name="firstname" pattern="^[a-z0-9_-]{3,15}$"/>
+                          <span class="mdl-textfield__error">3-15 characters with only lowercase letters, digits, underscore, and hyphen</span>
+                      </div>
 
                       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                          <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_new_lastname">Last Name</label>
+                          <input class="mdl-textfield__input" type="text" id="textfield_new_lastname" name="lastname" pattern="^[a-z0-9_-]{3,15}$"/>
+                          <span class="mdl-textfield__error">3-15 characters with only lowercase letters, digits, underscore, and hyphen</span>
+                      </div>
+
+
+                      <!--<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
                           <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_new_username">Username</label>
                           <input class="mdl-textfield__input" type="text" id="textfield_new_username" name="username" pattern="^[a-z0-9_-]{3,15}$"/>
                           <span class="mdl-textfield__error">3-15 characters with only lowercase letters, digits, underscore, and hyphen</span>
+                      </div>-->
+
+                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                        <label class="mdl-textfield__label mdl-color-text--grey" for="email">Email</label>
+                        <input class="mdl-textfield__input" type="text" id="email" name="email" />
                       </div>
 
                       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
@@ -79,15 +97,20 @@
                           </span>
                       </div>
 
+                      <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option_user">
+                        <input type="radio" id="option_user" name="role" class="mdl-radio__button" value="viewer">
+                        <span class="mdl-radio__label">Viewer</span>
+                      </label>
+
+                      <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option_uploader">
+                        <input type="radio" id="option_uploader" name="role" class="mdl-radio__button" value="uploader" >
+                        <span class="mdl-radio__label">Uploader</span>
+                      </label>
+
                       <!--<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
                           <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_password_confirm">Password Confirm</label>
                           <input class="mdl-textfield__input" type="password" id="textfield_password_confirm" name="password_confirm"/>
                       </div>-->
-
-                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
-                        <label class="mdl-textfield__label mdl-color-text--grey" for="email">Email</label>
-                        <input class="mdl-textfield__input" type="text" id="email" name="email" />
-                      </div>
 
                       <div class="mdl-cell mdl-cell--12-col send-button" align="center">
                           <button class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--raised mdl-button--colored" id="login">

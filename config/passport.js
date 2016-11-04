@@ -35,7 +35,7 @@ module.exports = function(passport) {
 
     }));
 
-    passport.use('signup', new LocalStrategy({
+    passport.use('register', new LocalStrategy({
         usernameField : 'email',
         passReqToCallback : true 
     },
@@ -49,12 +49,14 @@ module.exports = function(passport) {
                     if (user) {
                         return done(null, false, req.flash('signuperror', 'User already exists'));
                     } else {
+                    	console.log(req);
                         var newUser            = new User();
-						newUser.user.username  = req.body.username;
+						newUser.user.firstname  = req.body.firstname;
+						newUser.user.lastname  = req.body.lastname;
                         newUser.user.email     = email;
                         newUser.user.password  = newUser.generateHash(password);
-						newUser.user.name	   = ''
-						newUser.user.address   = ''
+						newUser.user.role	   = req.body.role;
+						
                         newUser.save(function(err) {
                             if (err)
                                 throw err;
@@ -64,12 +66,13 @@ module.exports = function(passport) {
 
                 });
             } else {
+            	console.log(req);
                 var user            = req.user;
-				user.user.username    = req.body.username;
-                user.user.email    = email;
-                user.user.password = user.generateHash(password);
-				user.user.name	= ''
-				user.user.address	= ''
+				user.user.firstname  = req.body.firstname;
+				user.user.lastname  = req.body.lastname;
+                user.user.email     = email;
+                user.user.password  = user.generateHash(password);
+				user.user.role	   = req.body.role;
 
                 user.save(function(err) {
                     if (err)

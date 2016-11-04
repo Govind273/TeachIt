@@ -6,7 +6,11 @@ var passport = require('passport');
 var flash    = require('connect-flash');
 var path = require('path'),
     fs = require('fs');
- var http = require('http')
+var http = require('http');
+var multer = require('multer');
+var Grid = require('gridfs-stream');
+
+
 var server = http.createServer(app)
 
 
@@ -25,7 +29,7 @@ app.configure(function() {
 	app.set('views', __dirname + '/views');
 	app.engine('html', require('ejs').renderFile);
 	app.use(express.session({ secret: 'teachit' })); 
-	app.use(express.bodyParser({uploadDir:'/uploads'}));
+	app.use(express.bodyParser({uploadDir:'./uploads'}));
 	app.use(passport.initialize());
 	app.use(passport.session()); 
 	app.use(flash()); 
@@ -34,6 +38,7 @@ app.configure(function() {
 
 
 require('./app/routes.js')(app, passport,server); 
+require('./config/upload.js')(app,server, multer, mongoose, Grid, fs); 
 
 server.listen(port);
 console.log('Listening  to  port ' + port);
