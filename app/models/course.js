@@ -7,3 +7,11 @@ var courseSchema = mongoose.Schema({
     coursegenre        		:String
     }
 });
+
+courseSchema.methods.updateCourse = function(request, response){
+	response.redirect('/course');
+};
+
+
+
+module.exports = mongoose.model('Course', courseSchema);

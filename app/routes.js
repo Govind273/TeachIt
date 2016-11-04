@@ -14,11 +14,11 @@ module.exports = function(app, passport,server) {
 		response.render('login.html', { message: request.flash('error') });
 	});
 
-	app.get('/homepage', function(request, response) {
+	app.get('/homepage', auth, function(request, response) {
 		response.render('homepage.html', { message: request.flash('error') });
 	});
 
-	app.get('/uploader', function(request, response) {
+	app.get('/uploader', auth, function(request, response) {
 		response.render('uploader_dashboard.html', { message: request.flash('error') });
 	});
 
@@ -48,8 +48,13 @@ module.exports = function(app, passport,server) {
 		response.redirect('/');
 	});
 
-	app.get('/createcourse', function(request, response) {
+	app.get('/createcourse', auth, function(request, response) {
 		response.render('create_course.html', { message: request.flash('error') });
 	});
 	
 };
+
+function auth(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login')
+}
