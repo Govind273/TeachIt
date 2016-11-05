@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <link rel="stylesheet" href="/scripts/material.min.css">
+    	<script src="/scripts/material.min.js"></script>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Homepage!</title>
+    </head>
+    <body>
+      <form id        =  "uploadForm"
+                    enctype   =  "multipart/form-data"
+                    action    =  "/createcourse"
+                    method    =  "post">
+
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                        <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_videoname">Name</label>
+                        <input class="mdl-textfield__input" type="text" id="textfield_videoname" name="video_name"/>
+                    </div>
+
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                        <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_videodesc">Description</label>
+                        <input class="mdl-textfield__input" type="text" id="textfield_videodesc" name="video_desc"/>
+                    </div>
+
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                        <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_quizqn">Quiz Question</label>
+                        <input class="mdl-textfield__input" type="text" id="textfield_quizqn" name="video_quizqn"/>
+                    </div>
+
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                        <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_quizans">Quiz Answer</label>
+                        <input class="mdl-textfield__input" type="text" id="textfield_quizans" name="video_quizans"/>
+                    </div>
+
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                        <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_videokeyword">Keyword</label>
+                        <input class="mdl-textfield__input" type="text" id="textfield_videokeyword" name="video_keyword"/>
+                    </div>
+                     
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--file">
+                      <input class="mdl-textfield__input" placeholder="File" type="text" id="uploadFile" readonly/>
+                      <div class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
+                        <i class="material-icons">attach_file</i><input type="file" name="userPhoto" id="uploadBtn">
+                      </div>
+                    </div>
+                      
+                    <div class="mdl-cell mdl-cell--12-col send-button" align="center">
+
+                        <input type="submit" value="Add Video" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--raised mdl-button--colored mdl-color--primary" name="submit"/>
+                    </div>
+
+                </form>
+                <script>
+                  document.getElementById("uploadBtn").onchange = function () {
+                      document.getElementById("uploadFile").value = this.files[0].name;
+                  };
+                </script>
+    </body>
+</html>

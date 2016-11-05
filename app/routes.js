@@ -82,7 +82,10 @@ module.exports = function(app, passport,server) {
 	app.get('/createcourse', function(request, response) {
 		if(request.isAuthenticated()) {
 			if(request.user.user.role == 'uploader') {
-				response.render('create_course.html', { message: request.flash('error') });
+				response.render('create_course.html', { 
+					user: "",
+					currentCourseVideos: ""
+				});
 			} else {
 				response.redirect('/viewer');
 			}

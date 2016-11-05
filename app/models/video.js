@@ -1,13 +1,12 @@
 var mongoose = require('mongoose');
 
 var videoSchema = mongoose.Schema({
-	video     		: {
 		video_name	: String,
 		video_desc  : String,
 		video_quiz_qn : String,
-		video_quiz_answer : Boolean,
-		video_keyowords : { type: Array, "default" :[] }
-    }
+		video_quiz_ans : Boolean,
+		video_keyowords : { type: Array, "default" :[] },
+		video_chunkname : String
 });
 
 videoSchema.methods.updateCourse = function(request, response){
