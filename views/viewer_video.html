@@ -3,11 +3,25 @@
     <head>
       <link rel="stylesheet" href="/scripts/material.min.css">
       <script src="/scripts/material.min.js"></script>
+      <script type="text/javascript" src="/js/jwplayer.js"></script>
+      <script>jwplayer.key="fNMS9OobQNK60RX98PytRr3Zm8QrkDYmnapXlA==";</script>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>View Video!</title>
     </head>
     <body>
       <% include viewer_navbar.html %>
+      <br/><br/><br/><br/>
+      <div class="mdl-layout">
+        <div id="thePlayer"></div>
+        <script type="text/javascript">
+            jwplayer("thePlayer").setup({
+                flashplayer: "player.swf",
+                file: '<%= video_name %>',
+                height: "270",
+                width: "380"
+            });
+        </script>
+      </div>
     </body>
 </html>

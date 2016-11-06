@@ -9,5 +9,14 @@
     </head>
     <body>
       <% include uploader_navbar.html %>
+      <br/><br/><br/><br/>
+      <div class="mdl-layout">
+        All courses <br/>
+        <%  for(var i=0; i<courses.length; i++) { %>
+                <%=   courses[i].course_name %> <br/>
+                <% } %> 
+      </div>
+      <div class="mdl-layout">
+      </div>
     </body>
 </html>

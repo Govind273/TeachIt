@@ -6,7 +6,7 @@ var videoSchema = mongoose.Schema({
 		video_quiz_qn : String,
 		video_quiz_ans : Boolean,
 		video_keyowords : { type: Array, "default" :[] },
-		video_chunkname : String
+		video_filename : String
 });
 
 videoSchema.methods.updateCourse = function(request, response){

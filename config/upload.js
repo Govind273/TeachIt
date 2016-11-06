@@ -27,7 +27,7 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
     app.set('gridfs',gfs);
   });
 
-  app.post('/createcourse',function(req,res){
+  app.post('/addVideo',function(req,res){
       upload(req,res,function(err) {
           if(err) {
               return res.end("Error uploading file.");
@@ -35,35 +35,43 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
           // console.log(req);
           // console.log(req.files.userPhoto.path);
           // console.log(req.files.userPhoto.originalFilename);
+          // console.log(req);
+          console.log(req.body);
+          // console.log(req.file);
+          // console.log(req.files);
+
 
           var writeStream = gfs.createWriteStream({
-            filename: req.files.userPhoto.originalFilename
+            filename: req.file.originalname
           });
 
-          fs.createReadStream(req.files.userPhoto.path).pipe(writeStream);
+          fs.createReadStream(req.file.path).pipe(writeStream);
 
           var course_name = "Course Name";
           var currentCourseVideos = [];
 
           // console.log(req);
-          // console.log(req.files)
           var user = req.user.user;
           var email = user.email;
+          // console.log(req.body);
+          // console.log(req.file);
 
           User.findOne({ 'user.email' : email  }, function(err, user) {
                 if (err){ return done(err);}
                 // console.log(user);
                 var courses = user.user.courses_created;
-                if(courses.length > 0) {
-                  for(var i=0; i<courses.length; i++) {
+                // if(courses.length > 0) {
+                  var i = 0;
+                  for(i=0; i<courses.length; i++) {
                     if(courses[i].course_name == "Course Name") {
                       // console.log("MAthced");
                       var newVideo = new Video();
-                      newVideo.video_name = "Video name2";
-                      newVideo.video_desc = "desc2";
-                      newVideo.video_quiz_qn = "qn1";
-                      newVideo.video_quiz_ans = "false";
-                      newVideo.video_keyowords = "asd,dee";
+                      newVideo.video_name = req.body.video_name;
+                      newVideo.video_desc = req.body.video_desc;
+                      newVideo.video_quiz_qn = req.body.video_quizqn;
+                      newVideo.video_quiz_ans = req.body.video_quizans;
+                      newVideo.video_keyowords = req.body.video_keyword;
+                      newVideo.video_filename = req.file.originalname;
                       currentCourse = courses[i];
                       // console.log(currentCourse);
                       user.user.courses_created[i].videos.push(newVideo);
@@ -72,9 +80,12 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
                       // console.log(currentCourseVideos);
                       user.markModified('user');
                       user.save();
+                      break;
                     }
+
                   }
-                } else {
+
+                  if(i == courses.length) {
                   var newCourse = new CourseCreated();
                   newCourse.course_name = "Course Name";
                   newCourse.course_desc = "Course Desc";
@@ -82,11 +93,13 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
                   newCourse.author = "JJ";
                   newCourse.videos = [];
                   var newVideo = new Video();
-                  newVideo.video_name = "Video name";
-                  newVideo.video_desc = "desc";
-                  newVideo.video_quiz_qn = "qn1";
-                  newVideo.video_quiz_ans = "true";
-                  newVideo.video_keyowords = "asd,dee";
+                  newVideo.video_name = req.body.video_name;
+                  newVideo.video_desc = req.body.video_desc;
+                  newVideo.video_quiz_qn = req.body.video_quizqn;
+                  newVideo.video_quiz_ans = req.body.video_quizans;
+                  newVideo.video_keyowords = req.body.video_keyword;
+                  newVideo.video_filename = req.file.originalname;
+                  newVideo.video_filename = req.file.originalname;
                   newCourse.videos.push(newVideo);
                   user.user.courses_created.push(newCourse);
                   currentCourseVideos = newCourse.videos;
@@ -102,13 +115,13 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
             });
           // res.end("File is uploaded");
           // 
-            console.log("Pass data...");
-            console.log(currentCourseVideos);
+            // console.log("Pass data...");
+            // console.log(currentCourseVideos);
             // console.log(req.user.user);
             
 
           writeStream.on('close', function(file) {
-            console.log(file.filename + 'Written to DB');
+            console.log(file.filename + ' written to DB');
           });
       });
   });
