@@ -47,8 +47,8 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
 
           fs.createReadStream(req.file.path).pipe(writeStream);
 
-          var course_name = "Course Name";
-          var currentCourseVideos = [];
+          var course_name = req.body.course_name;
+          var currentCourse;
 
           // console.log(req);
           var user = req.user.user;
@@ -63,7 +63,7 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
                 // if(courses.length > 0) {
                   var i = 0;
                   for(i=0; i<courses.length; i++) {
-                    if(courses[i].course_name == "Course Name") {
+                    if(courses[i].course_name == course_name) {
                       // console.log("MAthced");
                       var newVideo = new Video();
                       newVideo.video_name = req.body.video_name;
@@ -76,7 +76,7 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
                       // console.log(currentCourse);
                       user.user.courses_created[i].videos.push(newVideo);
                       // console.log(user.user.courses_created[i].videos);
-                      currentCourseVideos = user.user.courses_created[i].videos;
+                      currentCourse = user.user.courses_created[i];
                       // console.log(currentCourseVideos);
                       user.markModified('user');
                       user.save();
@@ -85,32 +85,32 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
 
                   }
 
-                  if(i == courses.length) {
-                  var newCourse = new CourseCreated();
-                  newCourse.course_name = "Course Name";
-                  newCourse.course_desc = "Course Desc";
-                  newCourse.course_genre = "Genre";
-                  newCourse.author = "JJ";
-                  newCourse.videos = [];
-                  var newVideo = new Video();
-                  newVideo.video_name = req.body.video_name;
-                  newVideo.video_desc = req.body.video_desc;
-                  newVideo.video_quiz_qn = req.body.video_quizqn;
-                  newVideo.video_quiz_ans = req.body.video_quizans;
-                  newVideo.video_keyowords = req.body.video_keyword;
-                  newVideo.video_filename = req.file.originalname;
-                  newVideo.video_filename = req.file.originalname;
-                  newCourse.videos.push(newVideo);
-                  user.user.courses_created.push(newCourse);
-                  currentCourseVideos = newCourse.videos;
-                  user.save();
-                }
+                //   if(i == courses.length) {
+                //   var newCourse = new CourseCreated();
+                //   newCourse.course_name = "Course Name";
+                //   newCourse.course_desc = "Course Desc";
+                //   newCourse.course_genre = "Genre";
+                //   newCourse.author = "JJ";
+                //   newCourse.videos = [];
+                //   var newVideo = new Video();
+                //   newVideo.video_name = req.body.video_name;
+                //   newVideo.video_desc = req.body.video_desc;
+                //   newVideo.video_quiz_qn = req.body.video_quizqn;
+                //   newVideo.video_quiz_ans = req.body.video_quizans;
+                //   newVideo.video_keyowords = req.body.video_keyword;
+                //   newVideo.video_filename = req.file.originalname;
+                //   newVideo.video_filename = req.file.originalname;
+                //   newCourse.videos.push(newVideo);
+                //   user.user.courses_created.push(newCourse);
+                //   currentCourse = newCourse;
+                //   user.markModified('user');
+                //   user.save();
+                // }
                 // user.user.courses_created.course_name = course_name;
                 // user.user.courses_created.videos.video_name = req.files.userPhoto.originalFilename;
                 // 
-                res.render('create_course.html', {
-                  user : req.user.user,
-                  currentCourseVideos : currentCourseVideos
+                res.render('edit_course.html', {
+                  course_details : currentCourse
                 });
             });
           // res.end("File is uploaded");

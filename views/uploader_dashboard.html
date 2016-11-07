@@ -13,8 +13,15 @@
       <div class="mdl-layout">
         All courses <br/>
         <%  for(var i=0; i<courses.length; i++) { %>
-                <%=   courses[i].course_name %> <br/>
-                <% } %> 
+        <form method="post" action='/editcourse'>
+        <div class="mdl-cell mdl-cell--12-col send-button">
+            <button type="submit" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--raised mdl-button--colored mdl-color--primary" name='<%= courses[i].course_name %>'>
+            <%= courses[i].course_name %>
+            </button>
+        </div>
+        </form>
+        <br/>
+        <% } %> 
       </div>
       <div class="mdl-layout">
       </div>

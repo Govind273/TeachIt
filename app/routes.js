@@ -161,13 +161,17 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 		var email = request.user.user.email;
 		console.log(email);
 		var currentCourse = "";
+		if(null != request.body.course_name) {
+			currentCourse = request.body.course_name;
+		}
+		 
 		User.findOne({ 'user.email' : email  }, function(err, user) {
 			var i =0;
 			var courses = user.user.courses_created;
 			for(i = 0; i<courses.length; i++){
 				if(courses[i].course_name == currentCourse){
 					courses[i].course_name = request.body.course_name;
-					courses[i].course_desc = request.body.course_desc;
+					courses[i].course_description = request.body.course_description;
 					courses[i].course_genre = request.body.course_genre;
 					user.user.courses_created = courses;
 					user.markModified('user');
@@ -178,7 +182,7 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 			if(i == courses.length){
 				  var newCourse = new CourseCreated();
                   newCourse.course_name = request.body.course_name;
-                  newCourse.course_desc = request.body.course_desc;
+                  newCourse.course_description = request.body.course_description;
                   newCourse.course_genre = request.body.course_genre;
                   user.user.courses_created.push(newCourse);
                   user.save();
@@ -191,6 +195,29 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 			response.redirect('/uploader');
 		}
 	)
+	});
+
+	app.post('/editcourse', function(request, response) {
+		console.log(request.body);
+		var current_course_name  = Object.keys(request.body);
+		var email = request.user.user.email;
+		User.findOne({ 'user.email' : email }, function(err, user) {
+			var i = 0;
+			var courses = user.user.courses_created;
+			var current_course_data = {};
+			for(i =0; i<courses.length; i++) {
+				if(courses[i].course_name == current_course_name[0]) {
+					current_course_data = courses[i];
+					break;
+				}
+			}
+			console.log(current_course_data);
+
+			response.render('edit_course.html', {
+				course_details: current_course_data
+			});
+		});
+
 	});
 
 };
