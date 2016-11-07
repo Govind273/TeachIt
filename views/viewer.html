@@ -15,5 +15,33 @@
       <div class="mdl-layout">
         <a href="/viewcourse">Course 1</a>
       </div>
+      <div class="mdl-layout">
+        <% var genre_map = new Map(); %>
+        <% for(var i=0; i<all_users.length; i++) { %>
+        <%    for(var j=0; j<all_users[i].user.courses_created.length; j++) { %>
+        <%      var course = all_users[i].user.courses_created[j] %>
+        <%      var courses = genre_map.get(course.course_genre) %>
+        <%      if(undefined != courses) { %>
+        <%        courses.push(course.course_name); %>
+        <%        genre_map.set(course.course_genre, courses); %>
+        <%      } else { %>
+        <%        var course_list = []; %>
+        <%        course_list.push(course.course_name); %>
+        <%        genre_map.set(course.course_genre, course_list); } %>
+        <% } } %>
+        <% genre_map.forEach(function(value, key) { %>
+        <%=   key %><br/>
+        <% for(var k=0; k<value.length; k++) {%>
+        <form method="post" action='/enrollcourse'>
+          <div class="mdl-cell mdl-cell--12-col send-button">
+            <button type="submit" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--raised mdl-button--colored mdl-color--primary" name='<%= value[k] %>'>
+            <%= value[k] %>
+            </button>
+        </div>
+        </form>
+        <% } %>
+        <br/><br/>
+        <% }); %>
+      </div>
     </body>
 </html>

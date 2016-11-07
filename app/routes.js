@@ -36,7 +36,14 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 			if(request.user.user.role == 'uploader') {
 				response.redirect('/uploader');
 			} else {
-				response.render('viewer.html', { message: request.flash('error') });
+				var courses = [];
+				User.find({ 'user.role' : 'uploader'}, function(err,user){
+					console.log(user)
+
+					response.render('viewer.html', {
+						all_users : user
+					});
+				});
 			}
 		} else {
 			response.redirect('/login');	
@@ -66,6 +73,8 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 			response.redirect('/login');	
 		}
 	});
+
+
 
 	app.post('/login', passport.authenticate('login', {
 		failureRedirect : '/login', 
@@ -116,13 +125,16 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 				})
 			}
 			else{
-				response.redirect('/viewer');
+				response.render('uploader_profile.html', {
+					user_details : request.user.user
+				})
 			}
 		}
 		else{
 			response.redirect('/login');
 		}
 	})
+
 
 	var Schema = mongoose.Schema;
 	mongoose.createConnection('mongodb://localhost/teachItDB');
@@ -172,6 +184,8 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 			response.redirect('/login');	
 		}
 	})
+
+
 
 	app.post('/addCourse', function(request, response){
 		var email = request.user.user.email;
@@ -250,4 +264,37 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 		})
 	})
 
+
+	app.post('/enrollcourse', function(request, response) {
+		User.findOne({ 'user.courses_created.course_name' : Object.keys(request.body)[0]}, function(err, user){
+			console.log(user)
+			var user = user.user;
+			var author = user.firstname + user.lastname;
+			console.log(author)
+			var coursename;
+			var coursedescription;
+			var videos;
+
+			for(var i=0; i<user.courses_created.length; i++){
+				if(user.courses_created[i].course_name == Object.keys(request.body)[0]){
+					coursename = user.courses_created[i].course_name;
+					console.log(coursename)
+					coursedescription = user.courses_created[i].course_description;
+					console.log(coursedescription)
+					videos = user.courses_created[i].videos;
+					console.log(videos)
+				}
+			}
+
+			
+			response.render('viewer_enroll_course.html', {
+			course : Object.keys(request.body),
+			author : author,
+			coursename : coursename,
+			coursedescription : coursedescription,
+			videos : videos
+		})
+		})
+
+	})
 };
