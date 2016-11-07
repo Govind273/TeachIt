@@ -108,6 +108,22 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 		}
 	});	
 
+	app.get('/updateprofile', function(request, response){
+		if(request.isAuthenticated()){
+			if(request.user.user.role == 'uploader'){
+				response.render('uploader_profile.html', {
+					user_details : request.user.user
+				})
+			}
+			else{
+				response.redirect('/viewer');
+			}
+		}
+		else{
+			response.redirect('/login');
+		}
+	})
+
 	var Schema = mongoose.Schema;
 	mongoose.createConnection('mongodb://localhost/teachItDB');
 	var conn = mongoose.connection;
@@ -219,5 +235,19 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 		});
 
 	});
+
+	app.post('/updateProfile', function(request, response) {
+		var email = request.user.user.email;
+		User.findOne({ 'user.email' : email}, function(err, user){
+			user.user.firstname = request.body.firstname;
+			user.user.lastname = request.body.lastname;
+			
+			user.markModified('user');
+			user.save();
+			response.render('uploader_profile.html', {
+				user_details : user.user
+			});
+		})
+	})
 
 };
