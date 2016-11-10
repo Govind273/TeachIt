@@ -1,7 +1,7 @@
 var User = require('../app/models/user');
 var CourseCreated = require('../app/models/course_created');
 var Video = require('../app/models/video');
-
+var ffmpeg = require('fluent-ffmpeg');
 module.exports = function(app, server, multer, mongoose, Grid, fs) {
 
   var Schema = mongoose.Schema;
@@ -37,16 +37,84 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
           // console.log(req.files.userPhoto.originalFilename);
           // console.log(req);
           console.log(req.body);
-          // console.log(req.file);
-          // console.log(req.files);
+         console.log(req.file);
+          console.log(req.files);
 
+          console.log(req.file.path);
 
+          var tempfilenames;
+          var fileduration;
+  
+
+          ffmpeg(req.file.path)
+            .on('filenames', function(filenames) {
+              //console.log('Will generate ' + filenames.join(', '))
+              tempfilenames = filenames;
+            })
+            .on('codecData', function(data) {
+              fileduration = data.duration;
+              console.log('Input duration is ' + data.duration);
+              })
+            .on('end', function() {
+             // console.log('Screenshots taken');
           var writeStream = gfs.createWriteStream({
-            filename: req.file.originalname
+              filename: req.file.originalname
           });
 
           fs.createReadStream(req.file.path).pipe(writeStream);
+          writeStream.on('close', function(file) {
+            console.log(file.filename + ' written to DB');
+          });
+          
+          var thumbnail = "WEBVTT\n\n";
+          //var timerange = parseInt(fileduration)/10;
+          var hours = 0;
+          var mins = 0;
+          var secs = 0;
+          //00:00:09.04
+          //012345678
+          hours = fileduration.substring(0,2);
+          mins = fileduration.substring(3,5);
+          secs = fileduration.substring(6,8);
+         console.log("mins: "+mins);
+         console.log("hours: "+hours);
 
+          var timerange = (parseInt(secs) + (parseInt(mins) * 60) + (parseInt(hours) * 3600)) * 0.1;
+           console.log("timerange: "+timerange);
+          var starttime = 0;
+          console.log("starttime: "+starttime);
+          for(var loop=0; loop<tempfilenames.length-1; loop++) {
+            thumbnail += starttime;
+            thumbnail += " --> ";
+            starttime += timerange;
+            thumbnail += starttime;
+            thumbnail += "\nscreenshots/";
+            thumbnail += tempfilenames[loop];
+            thumbnail += "\n\n";
+          }
+
+          var vttfilename = req.file.originalname.substring(0, req.file.originalname.indexOf('.')) + ".vtt";
+          fs.writeFile("./public/videos/"+vttfilename , thumbnail);
+          console.log("Thumbnail : "+thumbnail);
+          var writeStream = gfs.createWriteStream({
+                  filename: vttfilename
+          });
+          fs.createReadStream("./public/videos/"+vttfilename).pipe(writeStream);
+               writeStream.on('close', function(file) {
+                    //do nothing
+                });
+           
+          for(var i=0; i<tempfilenames.length-1; i++){
+            var writeStream = gfs.createWriteStream({
+                  filename: req.file.originalname + '-' + tempfilenames[i]
+            });
+              fs.createReadStream('./public/videos/screenshots/' + tempfilenames[i]).pipe(writeStream);
+               writeStream.on('close', function(file) {
+                    //do nothing
+                });
+          }
+
+         
           var course_name = req.body.course_name;
           var currentCourse;
 
@@ -72,6 +140,9 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
                       newVideo.video_quiz_ans = req.body.video_quizans;
                       newVideo.video_keyowords = req.body.video_keyword;
                       newVideo.video_filename = req.file.originalname;
+                      newVideo.video_screenshots = tempfilenames;
+                      newVideo.video_duration = fileduration;
+                      newVideo.video_thumbnail_vttfile = vttfilename;
                       currentCourse = courses[i];
                       // console.log(currentCourse);
                       user.user.courses_created[i].videos.push(newVideo);
@@ -84,45 +155,30 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
                     }
 
                   }
-
-                //   if(i == courses.length) {
-                //   var newCourse = new CourseCreated();
-                //   newCourse.course_name = "Course Name";
-                //   newCourse.course_desc = "Course Desc";
-                //   newCourse.course_genre = "Genre";
-                //   newCourse.author = "JJ";
-                //   newCourse.videos = [];
-                //   var newVideo = new Video();
-                //   newVideo.video_name = req.body.video_name;
-                //   newVideo.video_desc = req.body.video_desc;
-                //   newVideo.video_quiz_qn = req.body.video_quizqn;
-                //   newVideo.video_quiz_ans = req.body.video_quizans;
-                //   newVideo.video_keyowords = req.body.video_keyword;
-                //   newVideo.video_filename = req.file.originalname;
-                //   newVideo.video_filename = req.file.originalname;
-                //   newCourse.videos.push(newVideo);
-                //   user.user.courses_created.push(newCourse);
-                //   currentCourse = newCourse;
-                //   user.markModified('user');
-                //   user.save();
-                // }
-                // user.user.courses_created.course_name = course_name;
-                // user.user.courses_created.videos.video_name = req.files.userPhoto.originalFilename;
-                // 
+               
                 res.render('edit_course.html', {
                   course_details : currentCourse
                 });
             });
-          // res.end("File is uploaded");
-          // 
-            // console.log("Pass data...");
-            // console.log(currentCourseVideos);
-            // console.log(req.user.user);
-            
 
-          writeStream.on('close', function(file) {
-            console.log(file.filename + ' written to DB');
-          });
+         
+          //loop for deleting files from screenshots
+            for(var i=0; i<tempfilenames.length-1; i++){
+              fs.unlink('./public/videos/screenshots/' + tempfilenames[i]);
+            }
+              console.log('Files deleted');
+          })
+
+            .screenshots({
+                timestamps: ['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%'],
+                filename: 'thumbnail-at-%s-seconds.png',
+                folder: './public/videos/screenshots/',
+                size: '80x80'
+           });    
+
+          
+
+
       });
   });
 

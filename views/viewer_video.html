@@ -3,7 +3,7 @@
     <head>
       <link rel="stylesheet" href="/scripts/material.min.css">
       <script src="/scripts/material.min.js"></script>
-      <!-- <script type="text/javascript" src="/js/jwplayer.js"></script> -->
+      <script type="text/javascript" src="/js/jwplayer.js"></script>
       <script>jwplayer.key="fNMS9OobQNK60RX98PytRr3Zm8QrkDYmnapXlA==";</script>
       <script src="https://content.jwplatform.com/libraries/ksOa3onj.js"></script>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -19,9 +19,15 @@
             jwplayer("thePlayer").setup({
                 file: '<%= video_name %>',
                 height: "360",
-                width: "640"
+                width: "640",
+                tracks: [{ 
+                  file: '<%= video_thumbnail_vttfile %>',
+                  kind: "thumbnails"
+                }]
             });
         </script>
       </div>
     </body>
 </html>
+
+<!--file: "/videos/myThumbnails.vtt", -->

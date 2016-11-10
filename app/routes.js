@@ -144,7 +144,7 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 	Grid.mongo = mongoose.mongo;
 	var DOWNLOAD_DIR = './public/videos/';
 	var gfs;
-	var video_name = "SampleVideo.mp4";
+	var video_name;
 
 	conn.once('open', function() {
 	    console.log('open');
@@ -157,30 +157,80 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 			if(request.user.user.role == 'uploader') {
 				response.redirect('/uploader');
 			} else {
-				var course_name = "Course Name";
+				var course_name = "test";
 
-				var fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR+video_name);
-				//read from mongodb
-				var readstream;
+				User.findOne({'user.courses_created.course_name' : course_name}, function(err, user) {
+					// console.log(user);
+					var user = user.user;
+					var all_courses = user.courses_created;
 
-				readstream = gfs.createReadStream({
-					filename: video_name
+					for(var i=0; i<all_courses.length; i++) {
+						if(all_courses[i].course_name == course_name) {
+							var video = all_courses[i].videos[0];
+							video_name = video.video_filename;
+							var vttfile = video.video_thumbnail_vttfile;
+							var screenshots = video.video_screenshots;
+
+							var fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR+video_name);
+							//read from mongodb
+							var readstream;
+
+							readstream = gfs.createReadStream({
+								filename: video_name
+							});
+
+							readstream.pipe(fs_write_stream);
+							
+							fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR+video_name);
+							// console.log(fs_write_stream);
+
+
+							// console.log(fs_write_stream);							
+
+							
+							
+							fs_write_stream.on('close', function () {
+							// fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR +video_name);
+							    console.log('file has been written fully!');
+
+							    var fs_write_stream2 = fs.createWriteStream('./public/videos/'+vttfile);
+								//read from mongodb
+								var readstream;
+
+								readstream = gfs.createReadStream({
+									filename: vttfile
+								});
+
+								readstream.pipe(fs_write_stream2);
+								fs_write_stream2 = fs.createWriteStream('./public/videos/'+vttfile);
+
+								fs_write_stream2.on('close', function() {
+									for(var j=0; j<screenshots.length-1; j++) {
+										var fs_write_stream = fs.createWriteStream('./public/videos/screenshots/'+screenshots[j]);
+										//read from mongodb
+										var readstream;
+
+										readstream = gfs.createReadStream({
+											filename: screenshots[j]
+										});
+
+										readstream.pipe(fs_write_stream);
+										fs_write_stream = fs.createWriteStream('./public/videos/screenshots/'+screenshots[j]);
+										console.log(fs_write_stream);
+									}			
+								})
+							});
+
+							response.render('viewer_video.html', {
+								user : request.user.user,
+								video_name : "/videos/"+video_name,
+								video_thumbnail_vttfile : '/videos/'+vttfile
+							});
+
+						}
+					}
 				});
 
-				readstream.pipe(fs_write_stream);
-				fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR+video_name);
-				console.log(fs_write_stream);
-				
-
-				fs_write_stream.on('close', function () {
-				fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR +video_name);
-			    console.log('file has been written fully!');
-				});
-
-				response.render('viewer_video.html', {
-					user : request.user.user,
-					video_name : "/videos/"+video_name
-				});
 			}
 		} else {
 			response.redirect('/login');	
@@ -224,13 +274,13 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
                   user : request.user.user,
                   courses : currentCourseVideos
                 });
-			response.redirect('/uploader');
+			//response.redirect('/uploader');
 		}
 	)
 	});
 
 	app.post('/editcourse', function(request, response) {
-		console.log(request.body);
+		//console.log(request.body);
 		var current_course_name  = Object.keys(request.body);
 		var email = request.user.user.email;
 		User.findOne({ 'user.email' : email }, function(err, user) {
@@ -243,7 +293,7 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 					break;
 				}
 			}
-			console.log(current_course_data);
+			//console.log(current_course_data);
 
 			response.render('edit_course.html', {
 				course_details: current_course_data
