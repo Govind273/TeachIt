@@ -173,15 +173,13 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 
 							var fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR+video_name);
 							//read from mongodb
-							var readstream;
-
-							readstream = gfs.createReadStream({
+							var readstream = gfs.createReadStream({
 								filename: video_name
 							});
 
 							readstream.pipe(fs_write_stream);
 							
-							fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR+video_name);
+							// fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR+video_name);
 							// console.log(fs_write_stream);
 
 
@@ -189,35 +187,32 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 
 							
 							
-							fs_write_stream.on('close', function () {
-							// fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR +video_name);
+							readstream.on('end', function () {
+							// // fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR +video_name);
 							    console.log('file has been written fully!');
 
 							    var fs_write_stream2 = fs.createWriteStream('./public/videos/'+vttfile);
-								//read from mongodb
-								var readstream;
-
-								readstream = gfs.createReadStream({
+							// 	//read from mongodb
+								var readstream2 = gfs.createReadStream({
 									filename: vttfile
 								});
 
-								readstream.pipe(fs_write_stream2);
-								fs_write_stream2 = fs.createWriteStream('./public/videos/'+vttfile);
+								readstream2.pipe(fs_write_stream2);
+								// fs_write_stream2 = fs.createWriteStream('./public/videos/'+vttfile);
 
-								fs_write_stream2.on('close', function() {
+								readstream2.on('end', function() {
 									for(var j=0; j<screenshots.length-1; j++) {
-										var fs_write_stream = fs.createWriteStream('./public/videos/screenshots/'+screenshots[j]);
+										var fs_write_stream3 = fs.createWriteStream('./public/videos/screenshots/'+screenshots[j]);
 										//read from mongodb
-										var readstream;
-
-										readstream = gfs.createReadStream({
-											filename: screenshots[j]
+										var readstream3 = gfs.createReadStream({
+											filename: video_name+"-"+screenshots[j]
 										});
 
-										readstream.pipe(fs_write_stream);
-										fs_write_stream = fs.createWriteStream('./public/videos/screenshots/'+screenshots[j]);
-										console.log(fs_write_stream);
+										readstream3.pipe(fs_write_stream3);
+										// fs_write_stream3 = fs.createWriteStream('./public/videos/screenshots/'+screenshots[j]);
+										// console.log(fs_write_stream3);
 									}			
+									console.log("Files generated!!!");
 								})
 							});
 
