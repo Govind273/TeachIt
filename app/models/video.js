@@ -9,7 +9,8 @@ var videoSchema = mongoose.Schema({
 		video_filename : String,
 		video_duration : String,
 		video_screenshots : { type: Array, "default" : []},
-		video_thumbnail_vttfile : String
+		video_thumbnail_vttfile : String,
+		video_marker_vttfile : String
 });
 
 videoSchema.methods.updateCourse = function(request, response){

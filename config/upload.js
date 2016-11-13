@@ -30,14 +30,12 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
   app.post('/addVideo',function(req,res){
       upload(req,res,function(err) {
           if(err) {
+              console.log(err);
               return res.end("Error uploading file.");
           }
-          // console.log(req);
-          // console.log(req.files.userPhoto.path);
-          // console.log(req.files.userPhoto.originalFilename);
-          // console.log(req);
+          
           console.log(req.body);
-         console.log(req.file);
+          console.log(req.file);
           console.log(req.files);
 
           console.log(req.file.path);
@@ -67,22 +65,19 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
           });
           
           var thumbnail = "WEBVTT\n\n";
+          var marker = "WEBVTT\n\n";
           //var timerange = parseInt(fileduration)/10;
           var hours = 0;
           var mins = 0;
           var secs = 0;
-          //00:00:09.04
-          //012345678
+         
           hours = fileduration.substring(0,2);
           mins = fileduration.substring(3,5);
           secs = fileduration.substring(6,8);
-         console.log("mins: "+mins);
-         console.log("hours: "+hours);
-
+          
           var timerange = (parseInt(secs) + (parseInt(mins) * 60) + (parseInt(hours) * 3600)) * 0.1;
-           console.log("timerange: "+timerange);
           var starttime = 0;
-          console.log("starttime: "+starttime);
+          var markerstarttime = 0;
           for(var loop=0; loop<tempfilenames.length-1; loop++) {
             thumbnail += starttime;
             thumbnail += " --> ";
@@ -91,8 +86,20 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
             thumbnail += "\nscreenshots/";
             thumbnail += tempfilenames[loop];
             thumbnail += "\n\n";
+
+            marker += markerstarttime;
+            var temptime = markerstarttime;
+            marker += " --> ";
+            markerstarttime += timerange;
+            marker += markerstarttime;
+            marker += "\n"+temptime;
+            marker += "\n\n";
+
           }
 
+          console.log(marker);
+
+          //Thumbnail vtt file creation
           var vttfilename = req.file.originalname.substring(0, req.file.originalname.indexOf('.')) + ".vtt";
           fs.writeFile("./public/videos/"+vttfilename , thumbnail);
           console.log("Thumbnail : "+thumbnail);
@@ -100,6 +107,18 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
                   filename: vttfilename
           });
           fs.createReadStream("./public/videos/"+vttfilename).pipe(writeStream);
+               writeStream.on('close', function(file) {
+                    //do nothing
+                });
+
+          //Marker vtt file creation
+          var markervttfilename = "Marker_" + req.file.originalname.substring(0, req.file.originalname.indexOf('.')) + ".vtt";
+          fs.writeFile("./public/videos/"+markervttfilename , marker);
+          console.log("Marker : "+marker);
+          var writeStream = gfs.createWriteStream({
+                  filename: markervttfilename
+          });
+          fs.createReadStream("./public/videos/"+markervttfilename).pipe(writeStream);
                writeStream.on('close', function(file) {
                     //do nothing
                 });
@@ -143,6 +162,7 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
                       newVideo.video_screenshots = tempfilenames;
                       newVideo.video_duration = fileduration;
                       newVideo.video_thumbnail_vttfile = vttfilename;
+                      newVideo.video_marker_vttfile = markervttfilename;
                       currentCourse = courses[i];
                       // console.log(currentCourse);
                       user.user.courses_created[i].videos.push(newVideo);
@@ -166,6 +186,8 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
             for(var i=0; i<tempfilenames.length-1; i++){
               fs.unlink('./public/videos/screenshots/' + tempfilenames[i]);
             }
+
+            fs.unlink('./public/videos/'+markervttfilename);
               console.log('Files deleted');
           })
 

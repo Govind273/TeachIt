@@ -170,7 +170,9 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 							video_name = video.video_filename;
 							var vttfile = video.video_thumbnail_vttfile;
 							var screenshots = video.video_screenshots;
+							var markervttfile = video.video_marker_vttfile;
 
+							console.log(markervttfile);
 							var fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR+video_name);
 							//read from mongodb
 							var readstream = gfs.createReadStream({
@@ -179,27 +181,16 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 
 							readstream.pipe(fs_write_stream);
 							
-							// fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR+video_name);
-							// console.log(fs_write_stream);
-
-
-							// console.log(fs_write_stream);							
-
-							
-							
 							readstream.on('end', function () {
-							// // fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR +video_name);
 							    console.log('file has been written fully!');
 
 							    var fs_write_stream2 = fs.createWriteStream('./public/videos/'+vttfile);
-							// 	//read from mongodb
 								var readstream2 = gfs.createReadStream({
 									filename: vttfile
 								});
 
 								readstream2.pipe(fs_write_stream2);
-								// fs_write_stream2 = fs.createWriteStream('./public/videos/'+vttfile);
-
+						
 								readstream2.on('end', function() {
 									for(var j=0; j<screenshots.length-1; j++) {
 										var fs_write_stream3 = fs.createWriteStream('./public/videos/screenshots/'+screenshots[j]);
@@ -209,8 +200,16 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 										});
 
 										readstream3.pipe(fs_write_stream3);
-										// fs_write_stream3 = fs.createWriteStream('./public/videos/screenshots/'+screenshots[j]);
-										// console.log(fs_write_stream3);
+										
+										readstream3.on('end', function() {
+											var fs_write_stream4 = fs.createWriteStream('./public/videos/'+markervttfile);
+											var readstream4 = gfs.createReadStream({
+												filename: markervttfile
+											});
+
+											readstream4.pipe(fs_write_stream4);
+
+										})
 									}			
 									console.log("Files generated!!!");
 								})
@@ -219,7 +218,8 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 							response.render('viewer_video.html', {
 								user : request.user.user,
 								video_name : "/videos/"+video_name,
-								video_thumbnail_vttfile : '/videos/'+vttfile
+								video_thumbnail_vttfile : '/videos/'+vttfile,
+								video_marker_vttfile : '/videos/'+markervttfile
 							});
 
 						}
