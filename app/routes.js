@@ -127,7 +127,7 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 				})
 			}
 			else{
-				response.render('uploader_profile.html', {
+				response.render('viewer_profile.html', {
 					user_details : request.user.user
 				})
 			}
@@ -171,8 +171,10 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 							var vttfile = video.video_thumbnail_vttfile;
 							var screenshots = video.video_screenshots;
 							var markervttfile = video.video_marker_vttfile;
+							var video_quiz_qn = video.video_quiz_qn;
+							var video_quiz_ans = video.video_quiz_ans;
 
-							console.log(markervttfile);
+							console.log("QUESTION : "+video_quiz_qn);
 							var fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR+video_name);
 							//read from mongodb
 							var readstream = gfs.createReadStream({
@@ -219,7 +221,9 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 								user : request.user.user,
 								video_name : "/videos/"+video_name,
 								video_thumbnail_vttfile : '/videos/'+vttfile,
-								video_marker_vttfile : '/videos/'+markervttfile
+								video_marker_vttfile : '/videos/'+markervttfile,
+								video_quiz_qn : video_quiz_qn,
+								video_quiz_ans : video_quiz_ans
 							});
 
 						}
@@ -305,9 +309,17 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 			
 			user.markModified('user');
 			user.save();
-			response.render('uploader_profile.html', {
+
+			if(user.user.role == 'uploader') {
+				response.render('uploader_profile.html', {
 				user_details : user.user
-			});
+				});	
+			} else {
+				response.render('viewer_profile.html', {
+				user_details : user.user
+				});
+			}
+			
 		})
 	})
 
@@ -320,7 +332,9 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 			console.log(author)
 			var coursename;
 			var coursedescription;
-			var videos;
+			var video;
+			var video_name, vttfile, markervttfile, video_quiz_qn, video_quiz_ans;
+			var screenshots;
 
 			for(var i=0; i<user.courses_created.length; i++){
 				if(user.courses_created[i].course_name == Object.keys(request.body)[0]){
@@ -328,19 +342,74 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 					console.log(coursename)
 					coursedescription = user.courses_created[i].course_description;
 					console.log(coursedescription)
-					videos = user.courses_created[i].videos;
-					console.log(videos)
+					video = user.courses_created[i].videos[0];
+					video_name = video.video_filename;
+					vttfile = video.video_thumbnail_vttfile;
+					markervttfile = video.video_marker_vttfile;
+					video_quiz_qn = video.video_quiz_qn;
+					video_quiz_ans = video.video_quiz_ans;
+					screenshots = video.video_screenshots
+					console.log(video)
+
+					console.log("QUESTION : "+video_quiz_qn);
+						var fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR+video_name);
+						//read from mongodb
+						var readstream = gfs.createReadStream({
+							filename: video_name
+						});
+
+						readstream.pipe(fs_write_stream);
+						
+						readstream.on('end', function () {
+						    console.log('file has been written fully!');
+
+						    var fs_write_stream2 = fs.createWriteStream('./public/videos/'+vttfile);
+							var readstream2 = gfs.createReadStream({
+								filename: vttfile
+							});
+
+							readstream2.pipe(fs_write_stream2);
+					
+							readstream2.on('end', function() {
+								for(var j=0; j<screenshots.length-1; j++) {
+									var fs_write_stream3 = fs.createWriteStream('./public/videos/screenshots/'+screenshots[j]);
+									//read from mongodb
+									var readstream3 = gfs.createReadStream({
+										filename: video_name+"-"+screenshots[j]
+									});
+
+									readstream3.pipe(fs_write_stream3);
+									
+									readstream3.on('end', function() {
+										var fs_write_stream4 = fs.createWriteStream('./public/videos/'+markervttfile);
+										var readstream4 = gfs.createReadStream({
+											filename: markervttfile
+										});
+
+										readstream4.pipe(fs_write_stream4);
+
+									})
+								}			
+								console.log("Files generated!!!");
+							})
+						});
+
+					break;
 				}
 			}
 
 			
 			response.render('viewer_enroll_course.html', {
-			course : Object.keys(request.body),
-			author : author,
-			coursename : coursename,
-			coursedescription : coursedescription,
-			videos : videos
-		})
+				course : Object.keys(request.body),
+				author : author,
+				coursename : coursename,
+				coursedescription : coursedescription,
+				video_name : "/videos/"+video_name,
+				video_thumbnail_vttfile : '/videos/'+vttfile,
+				video_marker_vttfile : '/videos/'+markervttfile,
+				video_quiz_qn : video_quiz_qn,
+				video_quiz_ans : video_quiz_ans
+			})
 		})
 
 	});
