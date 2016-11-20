@@ -34,11 +34,11 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
               return res.end("Error uploading file.");
           }
           
-          console.log(req.body);
-          console.log(req.file);
-          console.log(req.files);
+          // console.log(req.body);
+          // console.log(req.file);
+          // console.log(req.files);
 
-          console.log(req.file.path);
+          // console.log(req.file.path);
 
           var tempfilenames;
           var fileduration;

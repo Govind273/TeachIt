@@ -524,4 +524,39 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 	    res.redirect('/');
 	  });
 	});
+
+
+	app.post('/enrolled', function(req,res) {
+		User.findOne({ 'user.email' :  req.user.user.email }, function(err, user) {
+			console.log(req.body);
+			// console.log(user);
+			user.user.courses_enrolled.push(req.body.course_name);
+			user.markModified('user');
+			user.save();
+
+			User.findOne({ 'user.courses_created.course_name' : req.body.course_name}, function(err, user){
+				console.log(user);
+				var user= user.user;
+				var courses = user.courses_created;
+				var course_videos = [];
+				var course = [];
+				for(var i=0; i<courses.length; i++) {
+					if(courses[i].course_name == req.body.course_name) {
+						course = courses[i];
+						course_videos = course.videos;
+					}
+				}
+				console.log(course);
+				console.log(course_videos);
+				
+
+				res.render('viewer_enrolled_course.html', {
+					coursename : req.body.course_name,
+					course : course,
+					videos : course_videos
+				})
+			});
+
+		} )
+	});
 };
