@@ -11,20 +11,18 @@
     </head>
     <body>
       <% include viewer_navbar.html %>
-      <br /> <br /> <br /> <br /> <br />
+      <br /> <br /> <br /> <br />
       
       <%= coursename %> <br />
       
-      <% var current_video = videos[0] %> <br />
+      <% var current_video = videos[0] %>
       <% var video_name = "/videos/" + current_video.video_filename %>
       <% var video_thumbnail_vttfile = "/videos/" + current_video.video_thumbnail_vttfile %>
       <% var video_marker_vttfile = "/videos/" + current_video.video_marker_vttfile %>
       <% var video_quiz_qn = current_video.video_quiz_qn %>
       <% var video_quiz_ans = current_video.video_quiz_ans %>
-      <% var vids = [];  %>
-      
 
-      <br/><br/><br/><br/> 
+      <br/><br/>
       <div class="mdl-layout">
         <div id="player"></div>
         <script type="text/javascript">
@@ -169,12 +167,12 @@
     <div class="mdl-layout">
         
         <% for(var j=0; j<videos.length; j++) { %>
-            <% var currentVid = {}; %>
-            <% currentVid.file = "/videos/" + videos[j].video_filename; %>
+            <% var currentVid = {"file" : ""} %>
+            <% currentVid.file = "/videos/" + videos[j].video_filename %>
             <% console.log(j) %>
-            <% vids.push(currentVid); %>
+            <% console.log(currentVid.file) %>
             
-            <% var vidName = "javascript:loadPlaylist(" + currentVid + ")"; %>
+            <% var vidName = "javascript:loadPlaylist(" + "{ 'file' :"+ "'/videos/" + videos[j].video_filename + "'})" %>
             <% console.log(vidName) %>
             <a href='<%= vidName %>' ><%= videos[j].video_filename %></a><br/>
         <% } %>
