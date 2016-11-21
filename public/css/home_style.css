@@ -1,0 +1,35 @@
+.justify-align{
+	text-align: justify;
+}
+
+.background-setcolor{
+	background-color: #260C1A;
+}
+
+.navbar-color{
+	/*background-color: #521616;*/
+	background-color: #E6E6EA;
+	color: #260C1A !important;
+	<!-- #BD0303 !important-->
+}
+
+nav a{
+	color: #260C1A !important;
+}
+
+
+.color-text{
+	color: #E6E6EA;
+}
+
+.button-bgcolor{
+	background-color: #246A73; 
+}
+
+footer.page-footer {
+  margin-top: 20px;
+  padding-top: 20px;
+  background-color: #E6E6EA;
+  color: #260C1A !important;
+}
+

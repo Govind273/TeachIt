@@ -1,26 +1,122 @@
 <!DOCTYPE html>
-<html>
-    <head>
-      <link rel="stylesheet" href="/scripts/material.min.css">
-    	<script src="/scripts/material.min.js"></script>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>TeachIt!</title>
-    </head>
-    <body>
-      <div class="mdl-layout mdl-js-layout">
-        <header class="mdl-layout__header">
-          <div class="mdl-layout-icon"></div>
-          <div class="mdl-layout__header-row">
-            <span class="mdl-layout__title">TeachIt!</span>
-            <div class="mdl-layout-spacer"></div>
-            <nav class="mdl-navigation">
-              <a class="mdl-navigation__link" href="#">About</a>
-              <a class="mdl-navigation__link" href="#">Nav link 2</a>
-              <a class="mdl-navigation__link" href="/login">Login / Register</a>
-            </nav>
-          </div>
-        </header>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>Teach It Home Page</title>
+
+  <!-- CSS  -->
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+   <link href="css/home_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+ 
+</head>
+<body>
+<!--  <div class="navbar-fixed" > -->
+  <nav class="navbar-color" role="navigation">
+    <div class="nav-wrapper container">
+      <a id="logo-container" href="#" class="brand-logo">Logo</a>
+      <ul class="right hide-on-med-and-down ">
+        <li><a href="#aboutus">About us</a></li>
+         <li><a href="#contactus">Contact us</a></li>
+         <li><a href="\login">Sign in</a></li>
+      </ul>
+
+      <ul id="nav-mobile" class="side-nav">
+        <li><a href="#aboutus">About us</a></li>
+         <li><a href="#contactus">Contact us</a></li>
+         <li><a href="\login">Sign in</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+<!--   </div> -->
+
+  <div id="index-banner" class="parallax-container">
+    <div class="section no-pad-bot">
+      <div class="container" >
+        <br><br>
+        <h1 class="header center color-text">Teach It</h1>
+        <div class="row center">
+          <h5 class="header col s12 color-text">A platform to teach, learn and grow</h5>
+        </div>
+        <div class="row center">
+          <a href="\login" id="download-button" class="btn-large waves-effect waves-light color-text button-bgcolor">REGISTER</a>
+        </div>
+        <br><br>
+
       </div>
-    </body>
+    </div>
+    <div class="parallax"><img src="images\image04.jpg" alt="Unsplashed background img 1"></div>
+  </div>
+
+
+  <div class="container" id="aboutus">
+    <div class="section">
+       <div class="row">
+        <div class="col s12 center">
+          <h3><i class="mdi-content-send brown-text"></i></h3>
+          <h4>About Us</h4>
+          <p class="left-align light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <div class="row center">
+          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+        </div>
+      </div>
+    </div>
+    <div class="parallax"><img src="images\image02.jpg" alt="Unsplashed background img 2"></div>
+  </div>
+
+  <div class="container">
+    <div class="section" id="contactus">
+
+      <div class="row">
+        <div class="col s12 center">
+          <h3><i class="mdi-content-send brown-text"></i></h3>
+          <h4>Contact Us</h4>
+          <p class="left-align light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <div class="row center">
+          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+        </div>
+      </div>
+    </div>
+    <div class="parallax"><img src="images\image05.jpg" alt="Unsplashed background img 3"></div>
+  </div>
+
+  <footer class="page-footer ">
+    
+    <div>
+      <div class="container">
+      </div>
+    </div>
+  </footer>
+
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+
+  </body>
 </html>
