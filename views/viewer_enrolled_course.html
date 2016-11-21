@@ -7,6 +7,7 @@
       <script>jwplayer.key="fNMS9OobQNK60RX98PytRr3Zm8QrkDYmnapXlA==";</script>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script  src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
       <title>You Enrolled to this Course!</title>
     </head>
     <body>
@@ -14,7 +15,6 @@
       <br /> <br /> <br /> <br />
       
       <%= coursename %> <br />
-      
       <% var current_video = videos[0] %>
       <% var video_name = "/videos/" + current_video.video_filename %>
       <% var video_thumbnail_vttfile = "/videos/" + current_video.video_thumbnail_vttfile %>
@@ -165,21 +165,55 @@
       </div>
 
     <div class="mdl-layout">
+         <form method="post" action="javascript:addLike('<%= coursename %>', '<%= current_video.video_filename %>')">
+             <input type="text" name="course_name" value='<%= coursename %>' hidden>
+             <input type="text" name="video_filename" id="current_playing_video" value='<%= current_video.video_filename %>' hidden>
+            <button type="submit" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--raised mdl-button--colored mdl-color--primary" name="like"><i class="material-icons">thumb_up</i></button><br/><br/>
+        </form>
+
+        <script> 
+        function addLike(coursename, video_filename) {
+                console.log(coursename);
+                video_filename = document.getElementById("current_playing_video").getAttribute("value");
+                $.ajax({
+                    url : '/addlike',
+                    type : 'POST',
+                    data : {
+                        coursename : coursename,
+                        video_filename : video_filename
+                    },
+                    error : function(xhr, textStatus, thrownError) {
+                        console.log("Errorr");
+                        console.log(thrownError);
+                        console.log(textStatus);
+                        console.log(xhr);
+                    },
+                    success : function() {
+                        console.log("Liked!!!!");
+                    }
+
+                });
+                
+            }
+        </script>
         
         <% for(var j=0; j<videos.length; j++) { %>
             <% var currentVid = {"file" : ""} %>
             <% currentVid.file = "/videos/" + videos[j].video_filename %>
-            <% console.log(j) %>
-            <% console.log(currentVid.file) %>
             
             <% var vidName = "javascript:loadPlaylist(" + "{ 'file' :"+ "'/videos/" + videos[j].video_filename + "'})" %>
-            <% console.log(vidName) %>
+
             <a href='<%= vidName %>' ><%= videos[j].video_filename %></a><br/>
         <% } %>
+
         <script type="text/javascript">
+        var current_playing_video = '';
         function loadPlaylist(thePlaylist) {
+            current_playing_video = thePlaylist.file.substring(8);
+            console.log("current_playing_video : "+current_playing_video);
+            document.getElementById("current_playing_video").setAttribute("value", current_playing_video);
             jwplayer().load(thePlaylist)
-            }
+            }  
         </script>
     
     </div>

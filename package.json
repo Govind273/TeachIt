@@ -27,6 +27,7 @@
     "fluent-ffmpeg": "^2.1.0",
     "gridfs-stream": "^1.1.1",
     "material-design-lite": "^1.2.1",
+    "materialize-css": "^0.97.8",
     "mongodb": "^2.2.11",
     "mongoose": "^4.6.5",
     "multer": "^1.2.0",

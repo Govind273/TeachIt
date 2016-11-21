@@ -26,6 +26,9 @@ app.configure(function() {
 	app.use(bodyParser.json());
 	app.use(express.static(path.join(__dirname, 'public')));
 	app.use('/scripts', express.static(__dirname + '/node_modules/material-design-lite/'));
+	app.use('/css', express.static(__dirname + '/public/css/'));
+	app.use('/js', express.static(__dirname + '/public/js/'));
+	app.use('/images', express.static(__dirname + '/public/images/'));
 	app.set('views', __dirname + '/views');
 	app.set('uploads', express.static(__dirname + '/uploads'));
 	app.engine('html', require('ejs').renderFile);
