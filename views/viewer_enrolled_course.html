@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <link rel="stylesheet" href="/scripts/material.min.css">
-      <script src="/scripts/material.min.js"></script>
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+     
+      <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <!--  Scripts-->
+      <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src="js/materialize.js"></script>
+      <script src="js/init.js"></script>
+
       <script type="text/javascript" src="/js/jwplayer.js"></script>
       <script>jwplayer.key="fNMS9OobQNK60RX98PytRr3Zm8QrkDYmnapXlA==";</script>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <script  src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
       <title>You Enrolled to this Course!</title>
-    </head>
+      </head>
     <body>
       <% include viewer_navbar.html %>
       <br /> <br /> <br /> <br />
-      
+
       <%= coursename %> <br />
       <% var current_video = videos[0] %>
       <% var video_name = "/videos/" + current_video.video_filename %>
@@ -165,14 +172,14 @@
       </div>
 
     <div class="mdl-layout">
-         <form method="post" action="javascript:addLike('<%= coursename %>', '<%= current_video.video_filename %>')">
+         <form method="post" action="javascript:addLike('<%= coursename %>', '<%= current_video.video_filename %>', '<%= viewername %>')">
              <input type="text" name="course_name" value='<%= coursename %>' hidden>
              <input type="text" name="video_filename" id="current_playing_video" value='<%= current_video.video_filename %>' hidden>
             <button type="submit" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--raised mdl-button--colored mdl-color--primary" name="like"><i class="material-icons">thumb_up</i></button><br/><br/>
         </form>
 
         <script> 
-        function addLike(coursename, video_filename) {
+        function addLike(coursename, video_filename, viewername) {
                 console.log(coursename);
                 video_filename = document.getElementById("current_playing_video").getAttribute("value");
                 $.ajax({
@@ -180,7 +187,8 @@
                     type : 'POST',
                     data : {
                         coursename : coursename,
-                        video_filename : video_filename
+                        video_filename : video_filename,
+                        viewername : viewername
                     },
                     error : function(xhr, textStatus, thrownError) {
                         console.log("Errorr");
@@ -200,7 +208,6 @@
         <% for(var j=0; j<videos.length; j++) { %>
             <% var currentVid = {"file" : ""} %>
             <% currentVid.file = "/videos/" + videos[j].video_filename %>
-            
             <% var vidName = "javascript:loadPlaylist(" + "{ 'file' :"+ "'/videos/" + videos[j].video_filename + "'})" %>
 
             <a href='<%= vidName %>' ><%= videos[j].video_filename %></a><br/>
@@ -210,12 +217,135 @@
         var current_playing_video = '';
         function loadPlaylist(thePlaylist) {
             current_playing_video = thePlaylist.file.substring(8);
+            
+            var list = document.getElementById("commentList");
+            list.innerHTML = '';
+            
             console.log("current_playing_video : "+current_playing_video);
             document.getElementById("current_playing_video").setAttribute("value", current_playing_video);
+            loadComments(current_playing_video);
             jwplayer().load(thePlaylist)
-            }  
+        }  
+
+        
+        function loadComments(current_playing_video) {
+            console.log(current_playing_video);
+            var videosList = eval($('#video').val());
+            console.log(videosList[0].video_filename);
+            for(var i=0; i < <%= videos.length %>; i++){
+
+                if(current_playing_video == videosList[i].video_filename){
+                    console.log("Found the video...loading comments...");
+                    for(var j=0; j<videosList[i].video_comments.length; j++){
+                        var currentcomment = videosList[i].video_comments[j];
+                        console.log(currentcomment.comment);
+                        var newcomment = document.createElement("li");
+                        var comment = document.createElement("p");
+                        var spanelememt = document.createElement("span");
+                        var image = document.createElement("img");
+                        var list = document.getElementById("commentList");
+                        image.setAttribute('class', 'circle');
+                        image.setAttribute('src', "images/image01.jpg");
+                        newcomment.setAttribute('class', 'collection-item avatar');
+                        spanelememt.setAttribute('class', 'title');
+                        spanelememt.innerHTML = currentcomment.viewername;
+                        comment.innerHTML = currentcomment.comment;
+
+
+                        newcomment.appendChild(image);
+                        newcomment.appendChild(spanelememt);
+                        newcomment.appendChild(comment);
+                        list.appendChild(newcomment);
+                    }
+                    break;
+                }
+            }
+        }
         </script>
+
+        <div id="vids" hidden>
+           <input type="text" value= '<%- JSON.stringify(videos) %>' id="video">
+        </div>
     
     </div>
+
+    
+      <div class="row">
+        <form class="col s12" method="post" action="javascript:addComment('<%= coursename %>', '<%= current_video.video_filename %>', '<%= viewername %>', '<%= comments %>')">
+             <input type="text" name="course_name" value='<%= coursename %>' hidden>
+             <input type="text" name="video_filename" id="current_playing_video" value='<%= current_video.video_filename %>' hidden>
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="comment_area" class="materialize-textarea"></textarea>
+              <label for="comment_area">Comments</label>
+            </div>
+          </div>
+          <button type="submit" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--raised mdl-button--colored mdl-color--primary" name="comment"><i class="material-icons">send</i></button><br/><br/>
+        </form>
+     </div>
+
+      <script> 
+        function addComment(coursename, video_filename, viewername, comments) {
+                // comment = document.getElementById("comment_area").getAttribute("value");
+                comment = $('#comment_area').val();
+                
+                console.log(comment);
+                video_filename = document.getElementById("current_playing_video").getAttribute("value");
+                $.ajax({
+                    url : '/addcomment',
+                    type : 'POST',
+                    data : {
+                        coursename : coursename,
+                        video_filename : video_filename,
+                        comment : comment,
+                        viewername : viewername
+                    },
+                    error : function(xhr, textStatus, thrownError) {
+                        console.log("Errorr");
+                        console.log(thrownError);
+                        console.log(textStatus);
+                        console.log(xhr);
+                    },
+                    success : function(data) {
+                        console.log("Commented!!!!");
+                        console.log(data.comment);
+                        var newcomment = document.createElement("li");
+                        var comment = document.createElement("p");
+                        var spanelememt = document.createElement("span");
+                        var image = document.createElement("img");
+                        var list = document.getElementById("commentList");
+                        image.setAttribute('class', 'circle');
+                        image.setAttribute('src', "images/image01.jpg");
+                        newcomment.setAttribute('class', 'collection-item avatar');
+                        spanelememt.setAttribute('class', 'title');
+                        spanelememt.innerHTML = data.comment.viewername;
+                        comment.innerHTML = data.comment.comment;
+
+
+                        newcomment.appendChild(image);
+                        newcomment.appendChild(spanelememt);
+                        newcomment.appendChild(comment);
+                        list.appendChild(newcomment);
+                        document.getElementById("video").setAttribute('value', JSON.stringify(data.videos));
+                        $('#comment_area').val('');
+                    }
+
+                });
+                
+            }
+        </script>
+
+        <div>
+            <ul class="collection" id="commentList">
+            <% for(var i=0; i<comments.length; i++) { %>
+            <li class="collection-item avatar">
+              <img src="images/image01.jpg" alt="" class="circle">
+              <span class="title"><%= comments[i].viewername %></span>
+              <p><%= comments[i].comment %><br>
+              </p>
+            </li>
+            <% } %>
+          </ul>
+        </div>
     </body>
 </html>
