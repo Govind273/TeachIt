@@ -5,6 +5,7 @@
     	<script src="/scripts/material.min.js"></script>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script  src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
       <title>Create your course!</title>
       <style>
         .mdl-button--file input{
@@ -112,7 +113,7 @@
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--file">
                       <input class="mdl-textfield__input" placeholder="File" type="text" id="uploadFile" readonly/>
                       <div class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
-                        <i class="material-icons">attach_file</i><input type="file" name="userPhoto" id="uploadBtn">
+                        <i class="material-icons">attach_file</i><input type="file" name="userPhoto" id="uploadBtn" accept=".mp4">
                       </div>
                     </div>
                       
@@ -152,21 +153,183 @@
             <div class="mdl-card__title mdl-color--orange-800">
                 <h2 class="mdl-card__title-text mdl-color-text--white">Video List</h2>
             </div>
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+            <!--<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
               <input class="mdl-textfield__input" id="videos" name="videos" value="Show videos" type="text" readonly tabIndex="-1" data-val=""/>
-                <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="videos">
+                <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
                 <%  for(var i=0; i<course_details.videos.length; i++) { %>
                 <li class="mdl-menu__item" data-val='<%= course_details.videos[i].video_name %>'><%= course_details.videos[i].video_name %></li>
                         <%  }%>
               </ul>
+            </div>-->
+            <div>
+              <ul class="mdl-list" id="vid_list">
+                <%  for(var i=0; i<course_details.videos.length; i++) { %>
+                <li class="mdl-list__item mdl-list__item--two-line" data-val='<%= course_details.videos[i].video_name %>'>
+                  <span class="mdl-list__item-primary-content">
+                    <span><%= course_details.videos[i].video_name %></span>
+                    <span class="mdl-list__item-sub-title">Video Time</span>
+                  </span>
+                  <span class="mdl-list__item-secondary-content">
+                    <% if(i != 0) { %>
+                    <a class="mdl-list__item-secondary-action" href="javascript:shiftUp('<%= course_details.course_name %>', '<%= course_details.videos[i].video_filename %>')"><i class="material-icons">keyboard_arrow_up</i></a>
+                    <% } %>
+                    <% if(i != course_details.videos.length-1) { %>
+                    <a class="mdl-list__item-secondary-action" href="javascript:shiftDown('<%= course_details.course_name %>', '<%= course_details.videos[i].video_filename %>')"><i class="material-icons">keyboard_arrow_down</i></a>
+                    <% } %>
+                  </span>
+                </li>
+                <%  }%>
+              </ul>
             </div>
+
+            <script> 
+              function shiftUp(course_name, video_filename) {
+                
+                $.ajax({
+                    url : '/shiftUp',
+                    type : 'POST',
+                    data : {
+                        coursename : course_name,
+                        video_filename : video_filename
+                    },
+                    error : function(xhr, textStatus, thrownError) {
+                        console.log("Errorr");
+                        console.log(thrownError);
+                        console.log(textStatus);
+                        console.log(xhr);
+                    },
+                    success : function(data) {
+                        console.log("Shifted UPPPP!!!!");
+                        console.log(data.videos);
+                        console.log(data.course_name);
+                        document.getElementById('vid_list').innerHTML = "";
+                        
+                        for(var i=0; i<data.videos.length; i++) {
+
+                          var newLi = document.createElement("li");
+                          newLi.setAttribute('class','mdl-list__item mdl-list__item--two-line');
+                          newLi.setAttribute('data-val', data.videos[i].video_name);
+
+                          var span_primary = document.createElement("span");
+                          span_primary.setAttribute('class','mdl-list__item-primary-content');
+                          var span_primary_name = document.createElement("span");
+                          span_primary_name.innerHTML = data.videos[i].video_name;
+                          var span_primary_time = document.createElement("span");
+                          span_primary_time.setAttribute('class','mdl-list__item-sub-title');
+                          span_primary_time.innerHTML = "Video Time";
+
+                          var span_secondary = document.createElement("span");
+                          span_secondary.setAttribute('class', 'mdl-list__item-secondary-content');
+                          
+                          var a_shift_up = document.createElement("a");
+                          a_shift_up.setAttribute('class', 'mdl-list__item-secondary-action');
+                          var a_up_content = "javascript:shiftUp('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
+                          a_shift_up.setAttribute('href', a_up_content);
+                          var i_shift_up = document.createElement("i");
+                          i_shift_up.setAttribute('class','material-icons');
+                          i_shift_up.innerHTML = "keyboard_arrow_up";
+
+                          var a_shift_down = document.createElement("a");
+                          a_shift_down.setAttribute('class', 'mdl-list__item-secondary-action');
+                          var a_down_content = "javascript:shiftDown('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
+                          a_shift_down.setAttribute('href', a_down_content);
+                          var i_shift_down = document.createElement("i");
+                          i_shift_down.setAttribute('class','material-icons');
+                          i_shift_down.innerHTML = "keyboard_arrow_down"; 
+
+                          document.getElementById('vid_list').appendChild(newLi);
+                          newLi.appendChild(span_primary);
+                          span_primary.appendChild(span_primary_name);
+                          span_primary.appendChild(span_primary_time);
+                          newLi.appendChild(span_secondary);
+                          if(i != 0) {
+                            span_secondary.appendChild(a_shift_up);
+                            a_shift_up.appendChild(i_shift_up);
+                          }
+                          if(i != data.videos.length-1 ) {
+                            span_secondary.appendChild(a_shift_down);
+                            a_shift_down.appendChild(i_shift_down);
+                          }
+
+                        }
+                    }
+                });
+              }
+
+              function shiftDown(course_name, video_filename) {
+                
+                $.ajax({
+                    url : '/shiftDown',
+                    type : 'POST',
+                    data : {
+                        coursename : course_name,
+                        video_filename : video_filename
+                    },
+                    error : function(xhr, textStatus, thrownError) {
+                        console.log("Errorr");
+                        console.log(thrownError);
+                        console.log(textStatus);
+                        console.log(xhr);
+                    },
+                    success : function(data) {
+                        console.log("Shifted Downnnn!!!!");
+                        console.log(data.videos);
+                        console.log(data.course_name);
+                        document.getElementById('vid_list').innerHTML = "";
+                        
+                        for(var i=0; i<data.videos.length; i++) {
+
+                          var newLi = document.createElement("li");
+                          newLi.setAttribute('class','mdl-list__item mdl-list__item--two-line');
+                          newLi.setAttribute('data-val', data.videos[i].video_name);
+
+                          var span_primary = document.createElement("span");
+                          span_primary.setAttribute('class','mdl-list__item-primary-content');
+                          var span_primary_name = document.createElement("span");
+                          span_primary_name.innerHTML = data.videos[i].video_name;
+                          var span_primary_time = document.createElement("span");
+                          span_primary_time.setAttribute('class','mdl-list__item-sub-title');
+                          span_primary_time.innerHTML = "Video Time";
+
+                          var span_secondary = document.createElement("span");
+                          span_secondary.setAttribute('class', 'mdl-list__item-secondary-content');
+                          
+                          var a_shift_up = document.createElement("a");
+                          a_shift_up.setAttribute('class', 'mdl-list__item-secondary-action');
+                          var a_up_content = "javascript:shiftUp('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
+                          a_shift_up.setAttribute('href', a_up_content);
+                          var i_shift_up = document.createElement("i");
+                          i_shift_up.setAttribute('class','material-icons');
+                          i_shift_up.innerHTML = "keyboard_arrow_up";
+
+                          var a_shift_down = document.createElement("a");
+                          a_shift_down.setAttribute('class', 'mdl-list__item-secondary-action');
+                          var a_down_content = "javascript:shiftDown('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
+                          a_shift_down.setAttribute('href', a_down_content);
+                          var i_shift_down = document.createElement("i");
+                          i_shift_down.setAttribute('class','material-icons');
+                          i_shift_down.innerHTML = "keyboard_arrow_down"; 
+
+                          document.getElementById('vid_list').appendChild(newLi);
+                          newLi.appendChild(span_primary);
+                          span_primary.appendChild(span_primary_name);
+                          span_primary.appendChild(span_primary_time);
+                          newLi.appendChild(span_secondary);
+                          if(i != 0) {
+                            span_secondary.appendChild(a_shift_up);
+                            a_shift_up.appendChild(i_shift_up);
+                          }
+                          if(i != data.videos.length-1 ) {
+                            span_secondary.appendChild(a_shift_down);
+                            a_shift_down.appendChild(i_shift_down);
+                          }
+
+                        }
+                    }
+                });
+              }
+        </script>
       </div>
     </div>
-
-     
-
-    
-
-                <!--</form>-->
     </body>
 </html>

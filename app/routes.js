@@ -761,6 +761,90 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 
 	});
 
+	app.post('/shiftUp', function(req,res) {
+		User.findOne({'user.courses_created.course_name' : req.body.coursename }, function(err, user){
+			var user = user.user;
+			var courses = user.courses_created;
+			var course_videos = [];
+			var course = [];
+			var video_index;
+			var course_index;
+
+			Array.prototype.move = function (from, to) {
+			  this.splice(to, 0, this.splice(from, 1)[0]);
+			};
+
+			for(var i=0; i<courses.length; i++) {
+				if(courses[i].course_name == req.body.coursename) {
+					course_index = i;
+					course = courses[i];
+					course_videos = course.videos;
+					for(var j=0; j<course_videos.length; j++){
+						if(course_videos[j].video_filename == req.body.video_filename){
+							video_index = j;
+							console.log(video_index);
+							console.log(course_index);
+							var new_video_index = video_index - 1;
+							course_videos.move(video_index, new_video_index);
+							break;
+						}
+					}
+					break;
+				}
+			}
+
+			user.markModified('user');
+			user.save();
+
+			res.json({
+				videos : course_videos,
+				course_name : course.course_name
+			});
+		})
+	});
+
+	app.post('/shiftDown', function(req,res) {
+		User.findOne({'user.courses_created.course_name' : req.body.coursename }, function(err, user){
+			var user = user.user;
+			var courses = user.courses_created;
+			var course_videos = [];
+			var course = [];
+			var video_index;
+			var course_index;
+
+			Array.prototype.move = function (from, to) {
+			  this.splice(to, 0, this.splice(from, 1)[0]);
+			};
+
+			for(var i=0; i<courses.length; i++) {
+				if(courses[i].course_name == req.body.coursename) {
+					course_index = i;
+					course = courses[i];
+					course_videos = course.videos;
+					for(var j=0; j<course_videos.length; j++){
+						if(course_videos[j].video_filename == req.body.video_filename){
+							video_index = j;
+							console.log(video_index);
+							console.log(course_index);
+							var new_video_index = video_index + 1;
+							course_videos.move(video_index, new_video_index);
+							break;
+						}
+					}
+					break;
+				}
+			}
+
+			user.markModified('user');
+			user.save();
+
+			res.json({
+				videos : course_videos,
+				course_name : course.course_name
+			});
+		})
+	});
+
 	/* Always place this at the bottom to handle all paths that do not exist.*/
 	app.all('*', function(req,res) {
 		res.redirect('/login');
