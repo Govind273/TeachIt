@@ -12,6 +12,7 @@ var videoSchema = mongoose.Schema({
 		video_thumbnail_vttfile : String,
 		video_marker_vttfile : String,
 		video_likes : { type: Array, "default" : []},
+		video_dislikes : {type: Array, "default" : []},
 		video_comments : { type: Array, "default" : []}
 });
 

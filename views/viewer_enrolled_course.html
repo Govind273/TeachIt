@@ -178,31 +178,60 @@
             <button type="submit" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--raised mdl-button--colored mdl-color--primary" name="like"><i class="material-icons">thumb_up</i></button><br/><br/>
         </form>
 
+        <form method="post" action="javascript:addDislike('<%= coursename %>', '<%= current_video.video_filename %>', '<%= viewername %>')">
+             <input type="text" name="course_name" value='<%= coursename %>' hidden>
+             <input type="text" name="video_filename" id="current_playing_video" value='<%= current_video.video_filename %>' hidden>
+            <button type="submit" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--raised mdl-button--colored mdl-color--primary" name="like"><i class="material-icons">thumb_down</i></button><br/><br/>
+        </form>
+
         <script> 
         function addLike(coursename, video_filename, viewername) {
-                console.log(coursename);
-                video_filename = document.getElementById("current_playing_video").getAttribute("value");
-                $.ajax({
-                    url : '/addlike',
-                    type : 'POST',
-                    data : {
-                        coursename : coursename,
-                        video_filename : video_filename,
-                        viewername : viewername
-                    },
-                    error : function(xhr, textStatus, thrownError) {
-                        console.log("Errorr");
-                        console.log(thrownError);
-                        console.log(textStatus);
-                        console.log(xhr);
-                    },
-                    success : function() {
-                        console.log("Liked!!!!");
-                    }
+            console.log(coursename);
+            video_filename = document.getElementById("current_playing_video").getAttribute("value");
+            $.ajax({
+                url : '/addlike',
+                type : 'POST',
+                data : {
+                    coursename : coursename,
+                    video_filename : video_filename,
+                    viewername : viewername
+                },
+                error : function(xhr, textStatus, thrownError) {
+                    console.log("Errorr");
+                    console.log(thrownError);
+                    console.log(textStatus);
+                    console.log(xhr);
+                },
+                success : function() {
+                    console.log("Liked!!!!");
+                }
 
-                });
-                
-            }
+            });
+            
+        }
+
+        function addDislike(coursename, video_filename, viewername) {
+            video_filename = document.getElementById("current_playing_video").getAttribute("value");
+            $.ajax({
+                url : '/adddislike',
+                type : 'POST',
+                data : {
+                    coursename : coursename,
+                    video_filename : video_filename,
+                    viewername : viewername
+                },
+                error : function(xhr, textStatus, thrownError) {
+                    console.log("Errorr");
+                    console.log(thrownError);
+                    console.log(textStatus);
+                    console.log(xhr);
+                },
+                success : function() {
+                    console.log("Disliked!!!!");
+                }
+
+            });
+        }
         </script>
         
         <% for(var j=0; j<videos.length; j++) { %>

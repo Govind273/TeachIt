@@ -622,10 +622,91 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 							console.log(req.body.video_filename);
 							var likes = {};
 							likes.viewername = req.body.viewername;
+
+							if(null != course_videos[j].video_dislikes) {
+								var index = -1;
+								for(var k=0; k<course_videos[j].video_dislikes.length; k++) {
+									if(course_videos[j].video_dislikes[k].viewername == likes.viewername) {
+										index = k;
+										break;
+									}
+								}
+								if( index > -1) {
+									course_videos[j].video_dislikes.splice(index, 1);
+								}
+							}
+
+
 							if(null == course_videos[j].video_likes){
 								course_videos[j].video_likes = [];
 							}
-							course_videos[j].video_likes.push(likes);
+
+							var index2 = -1;
+							for(var m=0; m<course_videos[j].video_likes.length;m++) {
+								if(course_videos[j].video_likes[m].viewername == likes.viewername) {
+									index2 = m;
+									break;
+								}
+							}
+							if(index2 == -1) {
+								course_videos[j].video_likes.push(likes);
+								break;
+							}
+						}
+					}
+					break;
+				}
+			}
+			user.markModified('user');
+			user.save();
+
+		})
+		res.end();
+	});
+
+	app.post('/adddislike', function(req, res){
+		console.log(req.body);
+		User.findOne({'user.courses_created.course_name' : req.body.coursename }, function(err, user){
+			var user = user.user;
+			var courses = user.courses_created;
+			var course_videos = [];
+			var course = [];
+			
+			for(var i=0; i<courses.length; i++) {
+				if(courses[i].course_name == req.body.coursename) {
+					course = courses[i];
+					course_videos = course.videos;
+					for(var j=0; j<course_videos.length; j++){
+						if(course_videos[j].video_filename == req.body.video_filename){
+							console.log(req.body.video_filename);
+							var dislikes = {};
+							dislikes.viewername = req.body.viewername;
+							if(null != course_videos[j].video_likes) {
+								var index = -1;
+								for(var k=0; k<course_videos[j].video_likes.length; k++) {
+									if(course_videos[j].video_likes[k].viewername == dislikes.viewername) {
+										index = k;
+										break;
+									}
+								}
+								if( index > -1) {
+									course_videos[j].video_likes.splice(index, 1);
+								}
+							}
+							if(null == course_videos[j].video_dislikes){
+								course_videos[j].video_dislikes = [];
+							}
+
+							var index2 = -1;
+							for(var m=0; m<course_videos[j].video_dislikes.length;m++) {
+								if(course_videos[j].video_dislikes[m].viewername == dislikes.viewername) {
+									index2 = m;
+									break;
+								}
+							}
+							if(index2 == -1) {
+								course_videos[j].video_dislikes.push(dislikes);
+							} 
 							break;
 						}
 					}
