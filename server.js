@@ -37,13 +37,18 @@ app.configure(function() {
 	app.use(bodyParser({uploadDir:'./uploads'}));
 	app.use(passport.initialize());
 	app.use(passport.session()); 
-	app.use(flash()); 
-
+	app.use(flash());
+	// app.use(redirectUnmatched);
 });
 
+function redirectUnmatched(req,res) {
+	res.redirect('/login');
+}
 
+require('./config/upload.js')(app,server, multer, mongoose, Grid, fs);
 require('./app/routes.js')(app, passport,server, mongoose, Grid, fs); 
-require('./config/upload.js')(app,server, multer, mongoose, Grid, fs); 
+
+
 
 server.listen(port);
 console.log('Listening  to  port ' + __dirname + port);

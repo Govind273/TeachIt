@@ -761,5 +761,8 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 
 	});
 
-
+	/* Always place this at the bottom to handle all paths that do not exist.*/
+	app.all('*', function(req,res) {
+		res.redirect('/login');
+	});
 };
