@@ -845,6 +845,48 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 		})
 	});
 
+	app.post('/search', function(req,res) {
+		$or: [ {}, {}]
+		User.find( { $or: [{'user.courses_created.course_name' : new RegExp(req.body.search_word, "i") }, 
+						{'user.courses_created.videos.video_name' : new RegExp(req.body.search_word, "i")}] }, 
+						function(err, users){
+			
+			var search_result = [];
+			var search_word = req.body.search_word;
+			var regex_search = new RegExp(req.body.search_word, "i");
+			console.log(users);
+			
+			for(var i=0; i<users.length; i++) {
+				var user = users[i].user;
+				var courses = user.courses_created;
+
+				for(var j=0; j<courses.length; j++) {
+					if(regex_search.test(courses[j].course_name)) {
+						var result_item = {};
+						result_item.type = "course";
+						result_item.course_details = courses[j];
+						search_result.push(result_item);
+					}
+
+					for(var k=0; k<courses[j].videos.length; k++) {
+						if(regex_search.test(courses[j].videos[k].video_name)) {
+							var result_item = {};
+							result_item.type = "video";
+							result_item.course_details = courses[j];
+							result_item.video = courses[j].videos[k];
+							search_result.push(result_item);
+						}
+					}
+				}	
+			}
+
+			res.render('viewer_search_result.html', {
+				search_result : search_result,
+				search_word : search_word
+			})
+		});
+	});
+
 	/* Always place this at the bottom to handle all paths that do not exist.*/
 	app.all('*', function(req,res) {
 		res.redirect('/login');

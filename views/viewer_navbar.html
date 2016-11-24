@@ -22,15 +22,28 @@
           <div class="nav-wrapper container">
             <a id="logo-container" href="/viewer" class="brand-logo">Teach It</a>
             <ul class="right ">
+              <li>
+                <form method="post" action="/search">
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                    <label class="mdl-button mdl-js-button mdl-button--icon" for="search_word">
+                      <i class="material-icons">search</i>
+                    </label>
+                    <div class="mdl-textfield__expandable-holder">
+                      <input class="mdl-textfield__input" type="text" id="search_word">
+                      <label class="mdl-textfield__label" for="sample-expandable"></label>
+                    </div>
+                  </div>
+                </form>
+              </li>
               <li><a href="#">Courses Enrolled</a></li>
-               <li><a href="/updateprofile">Update Profile</a></li>
-               <li><a href="/logout">Logout</a></li>
+              <li><a href="/updateprofile">Update Profile</a></li>
+              <li><a href="/logout">Logout</a></li>
             </ul>
 
             <ul id="nav-mobile" class="side-nav">
               <li><a href="#aboutus">About us</a></li>
-               <li><a href="#contactus">Contact us</a></li>
-               <li><a href="\login">Sign in</a></li>
+              <li><a href="#contactus">Contact us</a></li>
+              <li><a href="\login">Sign in</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
           </div>

@@ -9,5 +9,26 @@
     </head>
     <body>
       <% include viewer_navbar.html %>
+      <br/>
+      <div class="mdl-layout">
+        Search Result for -- <%= search_word %>
+      </div>
+      <div class="mdl-layout">
+        <ul class="mdl-list">
+        <% for(var i=0; i<search_result.length; i++) { %>
+          <li class="mdl-list__item">
+            <span class="mdl-list__item-primary-content">
+              <% if(search_result[i].type === 'course') { %>
+                <i class="material-icons mdl-list__item-avatar">C</i>
+                <%= search_result[i].course_details.course_name %>
+              <% } else {%>
+                <i class="material-icons mdl-list__item-avatar">V</i>
+                <%= search_result[i].video.video_name %>
+              <% } %>
+            </span>
+          </li>
+        <% } %>
+        </ul>
+      </div>
     </body>
 </html>
