@@ -27,6 +27,7 @@
         <%        genre_map.set(course.course_genre, course_list); } %>
         <% } } %>
         <% genre_map.forEach(function(value, key) { %>
+        <%= key %>
         <% for(var k=0; k<value.length; k++) {%>
         <form method="post" action='/enrollcourse'>
           <div class="mdl-cell mdl-cell--12-col send-button">

@@ -364,7 +364,8 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 					videos : course_videos,
 					viewername : request.user.user.firstname,
 					comments : comments,
-					paypal_email : paypal_email
+					paypal_email : paypal_email,
+					currentvideo : ""
 				})
 			});
 			} else {
@@ -896,7 +897,6 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 			var search_result = [];
 			var search_word = req.body.search_word;
 			var regex_search = new RegExp(req.body.search_word, "i");
-			console.log(users);
 			
 			for(var i=0; i<users.length; i++) {
 				var user = users[i].user;
@@ -1043,8 +1043,151 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 		});
 	});
 
+	app.post('/resultvideo', function(request, response) {
+		var email = request.user.user.email;
+		var course_name = Object.keys(request.body)[0];
+		var video_string = JSON.parse(request.body.result_video);
+		
+		User.findOne({'user.email' : email}, function(err, user) {
+			var courses_enrolled = user.user.courses_enrolled;
+			var paypal_email = user.user.paypal_email;
+			if(courses_enrolled.indexOf(course_name) > -1) {
+				User.findOne({ 'user.courses_created.course_name' : course_name}, function(err, user){
+				console.log("Found uploader!!");
+				var user= user.user;
+				var courses = user.courses_created;
+				var course_videos = [];
+				var course = [];
+				for(var i=0; i<courses.length; i++) {
+					if(courses[i].course_name == course_name) {
+						course = courses[i];
+						course_videos = course.videos;
+					}
+				}
+				var comments = course_videos[0].video_comments;
+
+				for(var i=0; i<course_videos.length; i++) {
+					var fs_write_stream2 = fs.createWriteStream('./public/videos/'+course_videos[i].video_filename);
+					var readstream2 = gfs.createReadStream({
+						filename: course_videos[i].video_filename
+					});
+					readstream2.pipe(fs_write_stream2);
+				}
+
+				var renderobj = {};
+				renderobj = {
+					coursename : course_name,
+					course : course,
+					videos : course_videos,
+					viewername : request.user.user.firstname,
+					comments : comments,
+					paypal_email : paypal_email,
+					currentvideo : ""
+				};
+
+				if(undefined != request.body.result_video){
+					renderobj.currentvideo = video_string; 					
+				}
+
+					response.render('viewer_enrolled_course.html', renderobj)
+				});
+			} else {
+				User.findOne({ 'user.courses_created.course_name' : course_name}, function(err, user){
+					var user = user.user;
+					var author = user.firstname + user.lastname;
+					var paypal_email = user.paypal_email;
+					var coursename;
+					var coursedescription;
+					var video;
+					var video_name, vttfile, markervttfile, video_quiz_qn, video_quiz_ans;
+					var screenshots;
+
+					for(var i=0; i<user.courses_created.length; i++){
+						console.log(course_name);
+						console.log("Before ifff...");
+						console.log(user.courses_created[i].course_name);
+						if(user.courses_created[i].course_name == course_name){
+							coursename = user.courses_created[i].course_name;
+							
+							coursedescription = user.courses_created[i].course_description;
+							video = user.courses_created[i].videos[0];
+							video_name = video.video_filename;
+							vttfile = video.video_thumbnail_vttfile;
+							markervttfile = video.video_marker_vttfile;
+							video_quiz_qn = video.video_quiz_qn;
+							video_quiz_ans = video.video_quiz_ans;
+							screenshots = video.video_screenshots;
+							console.log(video_quiz_ans);
+
+								
+							var fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR+video_name);
+							//read from mongodb
+							var readstream = gfs.createReadStream({
+								filename: video_name
+							});
+
+							readstream.pipe(fs_write_stream);
+							
+							readstream.on('end', function () {
+							    console.log('file has been written fully!');
+
+							    var fs_write_stream2 = fs.createWriteStream('./public/videos/'+vttfile);
+								var readstream2 = gfs.createReadStream({
+									filename: vttfile
+								});
+
+								readstream2.pipe(fs_write_stream2);
+						
+								readstream2.on('end', function() {
+									for(var j=0; j<screenshots.length-1; j++) {
+										var fs_write_stream3 = fs.createWriteStream('./public/videos/screenshots/'+screenshots[j]);
+										//read from mongodb
+										var readstream3 = gfs.createReadStream({
+											filename: video_name+"-"+screenshots[j]
+										});
+
+										readstream3.pipe(fs_write_stream3);
+										
+										readstream3.on('end', function() {
+											var fs_write_stream4 = fs.createWriteStream('./public/videos/'+markervttfile);
+											var readstream4 = gfs.createReadStream({
+												filename: markervttfile
+											});
+
+											readstream4.pipe(fs_write_stream4);
+
+										})
+									}			
+									console.log("Files generated!!!");
+								})
+							});	
+							break;
+						}
+					}
+
+					
+					response.render('viewer_enroll_course.html', {
+						course : Object.keys(request.body),
+						author : author,
+						coursename : coursename,
+						coursedescription : coursedescription,
+						video_name : "/videos/"+video_name,
+						video_thumbnail_vttfile : '/videos/'+vttfile,
+						video_marker_vttfile : '/videos/'+markervttfile,
+						video_quiz_qn : video_quiz_qn,
+						video_quiz_ans : video_quiz_ans,
+						paypal_email : paypal_email
+					})
+				})
+			}
+		});
+
+	});
+
 	/* Always place this at the bottom to handle all paths that do not exist.*/
 	app.all('*', function(req,res) {
 		res.redirect('/login');
 	});
+
+
 };

@@ -16,17 +16,30 @@
       <div class="mdl-layout">
         <ul class="mdl-list">
         <% for(var i=0; i<search_result.length; i++) { %>
-          <li class="mdl-list__item">
-            <span class="mdl-list__item-primary-content">
-              <% if(search_result[i].type === 'course') { %>
-                <i class="material-icons mdl-list__item-avatar">C</i>
-                <%= search_result[i].course_details.course_name %>
-              <% } else {%>
-                <i class="material-icons mdl-list__item-avatar">V</i>
-                <%= search_result[i].video.video_name %>
-              <% } %>
-            </span>
-          </li>
+            
+            <li class="mdl-list__item">
+              <span class="mdl-list__item-primary-content">
+                <% if(search_result[i].type === 'course') { %>
+                  <i class="material-icons mdl-list__item-avatar">C</i>
+                  <form action="/enrollcourse" method="POST">
+                    <button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect" name='<%= search_result[i].course_details.course_name %>'>
+                      <%= search_result[i].course_details.course_name %>
+                    </button>
+                  </form>
+
+                <% } else {%>
+                  <i class="material-icons mdl-list__item-avatar">V</i>
+                  <form action="/resultvideo" method="POST">
+                      <button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect" name='<%= search_result[i].course_details.course_name %>'>
+                        <%= search_result[i].video.video_name %>
+                      </button>
+                      <% var video_string = JSON.stringify(search_result[i].video) %>
+                      <input type="text" name="result_video" value='<%= video_string %>' hidden />
+                  </form>
+                  <% } %>
+              </span>
+            </li>
+          
         <% } %>
         </ul>
       </div>

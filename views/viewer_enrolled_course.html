@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+      
+      <!-- <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/> -->
      
-      <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+      <!-- <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/> -->
         <!--  Scripts-->
-      <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-      <script src="js/materialize.js"></script>
-      <script src="js/init.js"></script>
+      <script  src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+     
+      <!-- <script src="js/materialize.js"></script> -->
+      <!-- <script src="js/init.js"></script> -->
 
       <script type="text/javascript" src="/js/jwplayer.js"></script>
       <script>jwplayer.key="fNMS9OobQNK60RX98PytRr3Zm8QrkDYmnapXlA==";</script>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <script  src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
       <title>You Enrolled to this Course!</title>
       </head>
     <body>
-      <% include viewer_navbar.html %>
+       <% include viewer_navbar.html %> 
+      
       <br /> <br /> <br /> <br />
 
       <%= coursename %> <br />
-      <% var current_video = videos[0] %>
+      <% if("" != currentvideo) { %>
+      <%    var current_video = currentvideo %>
+      <% } else { %>
+      <%    var current_video = videos[0] %>
+      <% } %>
       <% var video_name = "/videos/" + current_video.video_filename %>
       <% var video_thumbnail_vttfile = "/videos/" + current_video.video_thumbnail_vttfile %>
       <% var video_marker_vttfile = "/videos/" + current_video.video_marker_vttfile %>
       <% var video_quiz_qn = current_video.video_quiz_qn %>
       <% var video_quiz_ans = current_video.video_quiz_ans %>
+      <%= current_video.video_quiz_ans %><br/>
 
       <div class="mdl-layout">
         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
@@ -150,7 +156,7 @@
                         quizform.appendChild(breaktag);
                         quizform.appendChild(falsebuttondiv);
                         falsebuttondiv.appendChild(falsebutton);
-                        falsebuttondiv.appendChild(falsebutton);
+                        
                         quizform.appendChild(breaktag);
                         quizform.appendChild(submit);
                         quizform.appendChild(breaktag);
