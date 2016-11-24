@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <link rel="stylesheet" href="/scripts/material.min.css">
+    	<script src="/scripts/material.min.js"></script>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Paypal!</title>
+    </head>
+    <body>
+      <% include uploader_navbar.html %>
+      <br/><br/><br/><br/>
+      <div class="mdl-layout">
+        <form method="post" action='/setDonation'>
+        <div class="mdl-cell mdl-cell--12-col send-button">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_email">Email</label>
+                <% if("" != email) { %>
+                <input class="mdl-textfield__input" type="text" id="textfield_email" name="email" value='<%= email %>'/>
+                <% } else { %>
+                <input class="mdl-textfield__input" type="text" id="textfield_email" name="email"/>
+                <% } %>
+            </div>
+
+            <button type="submit" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--raised mdl-button--colored mdl-color--primary" name='set_donation'>
+            Submit
+            </button>
+        </div>
+        </form>
+        <br/>
+      </div>
+    </body>
+</html>

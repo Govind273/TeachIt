@@ -11,7 +11,8 @@ var userSchema = mongoose.Schema({
   		resetPasswordExpires: Date,
 		role	     : String,
 		courses_enrolled : { type : Array , "default" : [] },
-		courses_created : { type : Array , "default" : [] }
+		courses_created : { type : Array , "default" : [] },
+    paypal_email : String
 	}
 });
 

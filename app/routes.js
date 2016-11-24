@@ -334,7 +334,7 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 		
 		User.findOne({'user.email' : email}, function(err, user) {
 			var courses_enrolled = user.user.courses_enrolled;
-			
+			var paypal_email = user.user.paypal_email;
 			if(courses_enrolled.indexOf(course_name) > -1) {
 				User.findOne({ 'user.courses_created.course_name' : course_name}, function(err, user){
 				console.log("Found uploader!!");
@@ -363,14 +363,15 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 					course : course,
 					videos : course_videos,
 					viewername : request.user.user.firstname,
-					comments : comments
+					comments : comments,
+					paypal_email : paypal_email
 				})
 			});
 			} else {
 				User.findOne({ 'user.courses_created.course_name' : course_name}, function(err, user){
 					var user = user.user;
 					var author = user.firstname + user.lastname;
-					
+					var paypal_email = user.paypal_email;
 					var coursename;
 					var coursedescription;
 					var video;
@@ -450,7 +451,8 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 						video_thumbnail_vttfile : '/videos/'+vttfile,
 						video_marker_vttfile : '/videos/'+markervttfile,
 						video_quiz_qn : video_quiz_qn,
-						video_quiz_ans : video_quiz_ans
+						video_quiz_ans : video_quiz_ans,
+						paypal_email : paypal_email
 					})
 				})
 			}
@@ -576,7 +578,7 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 			user.user.courses_enrolled.push(req.body.course_name);
 			user.markModified('user');
 			user.save();
-
+			var paypal_email = user.user.paypal_email;
 			User.findOne({ 'user.courses_created.course_name' : req.body.course_name}, function(err, user){
 				console.log(user);
 				var user= user.user;
@@ -605,7 +607,8 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 					course : course,
 					videos : course_videos,
 					viewername : req.user.user.firstname,
-					comments : comments
+					comments : comments,
+					paypal_email : paypal_email
 				})
 			});
 
@@ -1000,6 +1003,42 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 			res.render('admin_manage_user.html', {
 				user_type : user_type,
 				user_list : user_list
+			});
+		});
+	});
+
+	app.get('/setdonation', function(req, res) {
+
+		if(req.isAuthenticated()) {
+			User.findOne( {'user.email': req.user.user.email}, function(err, user) {
+				var user = user.user;
+				if(null != user.paypal_email) {
+					res.render('uploader_donation.html', {
+						email : user.paypal_email
+					});	
+				} else {
+					res.render('uploader_donation.html', {
+						email : ""
+					});
+				}
+				
+			});	
+		} else {
+			res.redirect('/login');
+		}
+		
+	});
+
+	app.post('/setdonation', function(req, res) {
+		console.log(req.body.email);
+		User.findOne( {'user.email': req.user.user.email}, function(err, user) {
+			var user = user.user;
+			user.paypal_email = req.body.email;
+			user.markModified('user');
+			user.save();
+
+			res.render('uploader_donation.html', {
+				email : user.paypal_email
 			});
 		});
 	});
