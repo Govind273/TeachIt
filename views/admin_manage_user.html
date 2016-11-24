@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<link rel="stylesheet" href="/scripts/material.min.css">
+	<script src="/scripts/material.min.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+	<script  src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  	<title>Admin Dashboard</title>
+</head>
+<body>
+
+<% include admin_navbar.html %>
+<br/><br/><br/>
+
+List of all <%= user_type %>
+<ul class="mdl-list">
+<% for(var i=0; i<user_list.length; i++) { %>
+	<li class="mdl-list__item mdl-list__item--two-line">
+		<span class="mdl-list__item-primary-content">
+	      <i class="material-icons  mdl-list__item-avatar">person</i>
+	      <span><%= user_list[i].user.first_name %></span>
+	      <span class="mdl-list__item-sub-title"><%= user_list[i].user.email %></span>
+	    </span>
+	    <span class="mdl-list__item-secondary-content">
+	      <a class="mdl-list__item-secondary-action" href="#"><i class="material-icons">delete</i></a>
+	    </span>
+	</li>
+<% } %>
+</ul>
+</body>
+</html>

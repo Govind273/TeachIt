@@ -989,6 +989,21 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 		}
 	});
 
+	app.post('/getusers', function(req, res) {
+		console.log(req.body);
+		var user_type = Object.keys(req.body)[0];
+		var user_list = [];
+
+		User.find({'user.role' : user_type}, function(err, users){
+			user_list = users;
+
+			res.render('admin_manage_user.html', {
+				user_type : user_type,
+				user_list : user_list
+			});
+		});
+	});
+
 	/* Always place this at the bottom to handle all paths that do not exist.*/
 	app.all('*', function(req,res) {
 		res.redirect('/login');
