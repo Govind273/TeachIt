@@ -100,10 +100,20 @@
                         <input class="mdl-textfield__input" type="text" id="textfield_quizqn" name="video_quizqn"/>
                     </div>
 
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                  <!--   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
                         <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_quizans">Quiz Answer</label>
                         <input class="mdl-textfield__input" type="text" id="textfield_quizans" name="video_quizans"/>
-                    </div>
+                    </div> -->
+
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="true">
+                      <input type="radio" id="true" class="mdl-radio__button" name="video_quizans" value="1" checked>
+                      <span class="mdl-radio__label">True</span>
+                    </label>
+
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="false">
+                      <input type="radio" id="false" class="mdl-radio__button" name="video_quizans" value="2">
+                      <span class="mdl-radio__label">False</span>
+                    </label>
 
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
                         <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_videokeyword">Keyword</label>

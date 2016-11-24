@@ -14,7 +14,9 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 		if(request.isAuthenticated()) {
 			if(request.user.user.role == 'uploader') {
 				response.redirect('/uploader');
-			} else {
+			} else if(request.user.user.role == 'admin') {
+				response.redirect('/admin');
+			}  else {
 				response.redirect('/viewer');
 			}
 		}
@@ -25,7 +27,11 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 		if(request.isAuthenticated()) {
 			if(request.user.user.role == 'uploader') {
 				response.redirect('/uploader');
-			} else {
+			}
+			else if(request.user.user.role == 'admin') {
+				response.redirect('/admin');
+			} 
+			else {
 				response.redirect('/viewer');
 			}
 		} else {
@@ -81,11 +87,12 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 		failureRedirect : '/login', 
 		failureFlash : true
 	}), function(req,res) {
-			// console.log(req);
 			User.findOne({'user.email': req.body.email}, function(err, user) {
 			    if(user.user.role === "uploader") {
 					res.redirect('/uploader');
-				} else {
+				} else if(user.user.role == 'admin') {
+					res.redirect('/admin');
+				}  else {
 					res.redirect('/viewer');
 				}
 			});
@@ -360,7 +367,7 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 				})
 			});
 			} else {
-				User.findOne({ 'user.courses_created.course_name' : Object.keys(request.body)[0]}, function(err, user){
+				User.findOne({ 'user.courses_created.course_name' : course_name}, function(err, user){
 					var user = user.user;
 					var author = user.firstname + user.lastname;
 					
@@ -371,65 +378,66 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 					var screenshots;
 
 					for(var i=0; i<user.courses_created.length; i++){
-						if(user.courses_created[i].course_name == Object.keys(request.body)[0]){
+						console.log(course_name);
+						console.log("Before ifff...");
+						console.log(user.courses_created[i].course_name);
+						if(user.courses_created[i].course_name == course_name){
 							coursename = user.courses_created[i].course_name;
 							
 							coursedescription = user.courses_created[i].course_description;
-								video = user.courses_created[i].videos[0];
-								video_name = video.video_filename;
-								vttfile = video.video_thumbnail_vttfile;
-								markervttfile = video.video_marker_vttfile;
-								video_quiz_qn = video.video_quiz_qn;
-								video_quiz_ans = video.video_quiz_ans;
-								screenshots = video.video_screenshots;
+							video = user.courses_created[i].videos[0];
+							video_name = video.video_filename;
+							vttfile = video.video_thumbnail_vttfile;
+							markervttfile = video.video_marker_vttfile;
+							video_quiz_qn = video.video_quiz_qn;
+							video_quiz_ans = video.video_quiz_ans;
+							screenshots = video.video_screenshots;
+							console.log(video_quiz_ans);
 
 								
-									var fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR+video_name);
-									//read from mongodb
-									var readstream = gfs.createReadStream({
-										filename: video_name
-									});
+							var fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR+video_name);
+							//read from mongodb
+							var readstream = gfs.createReadStream({
+								filename: video_name
+							});
 
-									readstream.pipe(fs_write_stream);
-									
-									readstream.on('end', function () {
-									    console.log('file has been written fully!');
+							readstream.pipe(fs_write_stream);
+							
+							readstream.on('end', function () {
+							    console.log('file has been written fully!');
 
-									    var fs_write_stream2 = fs.createWriteStream('./public/videos/'+vttfile);
-										var readstream2 = gfs.createReadStream({
-											filename: vttfile
+							    var fs_write_stream2 = fs.createWriteStream('./public/videos/'+vttfile);
+								var readstream2 = gfs.createReadStream({
+									filename: vttfile
+								});
+
+								readstream2.pipe(fs_write_stream2);
+						
+								readstream2.on('end', function() {
+									for(var j=0; j<screenshots.length-1; j++) {
+										var fs_write_stream3 = fs.createWriteStream('./public/videos/screenshots/'+screenshots[j]);
+										//read from mongodb
+										var readstream3 = gfs.createReadStream({
+											filename: video_name+"-"+screenshots[j]
 										});
 
-										readstream2.pipe(fs_write_stream2);
-								
-										readstream2.on('end', function() {
-											for(var j=0; j<screenshots.length-1; j++) {
-												var fs_write_stream3 = fs.createWriteStream('./public/videos/screenshots/'+screenshots[j]);
-												//read from mongodb
-												var readstream3 = gfs.createReadStream({
-													filename: video_name+"-"+screenshots[j]
-												});
+										readstream3.pipe(fs_write_stream3);
+										
+										readstream3.on('end', function() {
+											var fs_write_stream4 = fs.createWriteStream('./public/videos/'+markervttfile);
+											var readstream4 = gfs.createReadStream({
+												filename: markervttfile
+											});
 
-												readstream3.pipe(fs_write_stream3);
-												
-												readstream3.on('end', function() {
-													var fs_write_stream4 = fs.createWriteStream('./public/videos/'+markervttfile);
-													var readstream4 = gfs.createReadStream({
-														filename: markervttfile
-													});
+											readstream4.pipe(fs_write_stream4);
 
-													readstream4.pipe(fs_write_stream4);
-
-												})
-											}			
-											console.log("Files generated!!!");
 										})
-									});
-
-								
-								
+									}			
+									console.log("Files generated!!!");
+								})
+							});	
+							break;
 						}
-						break;
 					}
 
 					
@@ -916,6 +924,69 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 				search_word : search_word
 			})
 		});
+	});
+
+	app.post('/adminregister', passport.authenticate('adminregister', {
+		successRedirect : '/admin',
+		failureRedirect : '/login', 
+		failureFlash : true 
+	}));
+
+	app.get('/admin', function(req, res) {
+		if(req.isAuthenticated()) {
+			User.find({'user.role' : 'viewer'}, function(err, viewers){
+				var noOfViewers = viewers.length;
+				var courses_viewers_map = new Map();
+				for(var i=0; i<noOfViewers; i++){
+					var current_viewer = viewers[i].user; 
+					for(var j=0; j<current_viewer.courses_enrolled.length; j++){
+						if(courses_viewers_map.get(current_viewer.courses_enrolled[j])){
+							var val = courses_viewers_map.get(current_viewer.courses_enrolled[j]);
+							val += 1;	 
+							courses_viewers_map.set(current_viewer.courses_enrolled[j], val);
+						}
+						else{
+							courses_viewers_map.set(current_viewer.courses_enrolled[j], 1);	
+						}
+							
+					}
+						
+				}
+
+
+				User.find({'user.role' : 'uploader'}, function(err, uploaders){
+					var noOfUploaders = uploaders.length;
+					var noOfCourses = 0;
+					var noOfVideos = 0;
+					var videos_likes_map = new Map();
+					var videos_dislikes_map = new Map();
+					for(var i=0; i < uploaders.length; i++){
+						noOfCourses += uploaders[i].user.courses_created.length;
+						for(var j=0; j<uploaders[i].user.courses_created.length; j++){
+							noOfVideos += uploaders[i].user.courses_created[j].videos.length;
+							for(var k=0; k<uploaders[i].user.courses_created[j].videos.length; k++){
+								videos_likes_map.set(uploaders[i].user.courses_created[j].videos[k].video_name, uploaders[i].user.courses_created[j].videos[k].video_likes.length);	
+								videos_dislikes_map.set(uploaders[i].user.courses_created[j].videos[k].video_name, uploaders[i].user.courses_created[j].videos[k].video_dislikes.length);	
+							
+							}
+						}
+					}
+			
+					res.render('admin_dashboard.html', {
+						no_of_viewers : noOfViewers,
+						no_of_uploaders : noOfUploaders,
+						no_of_courses : noOfCourses,
+						no_of_videos : noOfVideos,
+						courses_viewers_map : courses_viewers_map,
+						videos_likes_map : videos_likes_map,
+						videos_dislikes_map : videos_dislikes_map
+
+					});
+				});
+			})
+		} else {
+			res.render('admin_login.html');
+		}
 	});
 
 	/* Always place this at the bottom to handle all paths that do not exist.*/

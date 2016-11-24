@@ -28,6 +28,7 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
   });
 
   app.post('/addVideo',function(req,res){
+
       upload(req,res,function(err) {
           if(err) {
               console.log(err);
@@ -51,7 +52,7 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
             })
             .on('codecData', function(data) {
               fileduration = data.duration;
-              console.log('Input duration is ' + data.duration);
+              // console.log('Input duration is ' + data.duration);
               })
             .on('end', function() {
              // console.log('Screenshots taken');
@@ -97,12 +98,12 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
 
           }
 
-          console.log(marker);
+          // console.log(marker);
 
           //Thumbnail vtt file creation
           var vttfilename = req.file.originalname.substring(0, req.file.originalname.indexOf('.')) + ".vtt";
           fs.writeFile("./public/videos/"+vttfilename , thumbnail);
-          console.log("Thumbnail : "+thumbnail);
+          // console.log("Thumbnail : "+thumbnail);
           var writeStream = gfs.createWriteStream({
                   filename: vttfilename
           });
@@ -114,7 +115,7 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
           //Marker vtt file creation
           var markervttfilename = "Marker_" + req.file.originalname.substring(0, req.file.originalname.indexOf('.')) + ".vtt";
           fs.writeFile("./public/videos/"+markervttfilename , marker);
-          console.log("Marker : "+marker);
+          // console.log("Marker : "+marker);
           var writeStream = gfs.createWriteStream({
                   filename: markervttfilename
           });
@@ -141,7 +142,7 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
           var user = req.user.user;
           var email = user.email;
           // console.log(req.body);
-          // console.log(req.file);
+          // console.log(req.body.video_quizans);
 
           User.findOne({ 'user.email' : email  }, function(err, user) {
                 if (err){ return done(err);}
@@ -156,7 +157,12 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
                       newVideo.video_name = req.body.video_name;
                       newVideo.video_desc = req.body.video_desc;
                       newVideo.video_quiz_qn = req.body.video_quizqn;
-                      newVideo.video_quiz_ans = req.body.video_quizans;
+                      if(req.body.video_quizans == '1'){
+                        newVideo.video_quiz_ans = true;
+                      }
+                      else{
+                        newVideo.video_quiz_ans = false;
+                      }
                       newVideo.video_keyowords = req.body.video_keyword;
                       newVideo.video_filename = req.file.originalname;
                       newVideo.video_screenshots = tempfilenames;
