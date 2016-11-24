@@ -845,6 +845,37 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 		})
 	});
 
+	app.post('/videoDelete', function(req,res) {
+		User.findOne({'user.courses_created.course_name' : req.body.coursename }, function(err, user){
+			var user = user.user;
+			var courses = user.courses_created;
+			var course_videos = [];
+			var course = [];
+
+			for(var i=0; i<courses.length; i++) {
+				if(courses[i].course_name == req.body.coursename) {
+					course = courses[i];
+					course_videos = course.videos;
+					for(var j=0; j<course_videos.length; j++){
+						if(course_videos[j].video_filename == req.body.video_filename){
+							course_videos.splice(j,1);
+							break;
+						}
+					}
+					break;
+				}
+			}
+
+			user.markModified('user');
+			user.save();
+
+			res.json({
+				videos : course_videos,
+				course_name : course.course_name
+			});
+		})
+	});
+
 	app.post('/search', function(req,res) {
 		$or: [ {}, {}]
 		User.find( { $or: [{'user.courses_created.course_name' : new RegExp(req.body.search_word, "i") }, 

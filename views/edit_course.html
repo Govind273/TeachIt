@@ -176,6 +176,7 @@
                     <% if(i != course_details.videos.length-1) { %>
                     <a class="mdl-list__item-secondary-action" href="javascript:shiftDown('<%= course_details.course_name %>', '<%= course_details.videos[i].video_filename %>')"><i class="material-icons">keyboard_arrow_down</i></a>
                     <% } %>
+                    <a class="mdl-list__item-secondary-action" href="javascript:videoDelete('<%= course_details.course_name %>', '<%= course_details.videos[i].video_filename %>')"><i class="material-icons">delete</i></a>
                   </span>
                 </li>
                 <%  }%>
@@ -235,7 +236,15 @@
                           a_shift_down.setAttribute('href', a_down_content);
                           var i_shift_down = document.createElement("i");
                           i_shift_down.setAttribute('class','material-icons');
-                          i_shift_down.innerHTML = "keyboard_arrow_down"; 
+                          i_shift_down.innerHTML = "keyboard_arrow_down";
+
+                          var a_delete = document.createElement("a");
+                          a_delete.setAttribute('class', 'mdl-list__item-secondary-action');
+                          var a_delete_content = "javascript:videoDelete('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
+                          a_delete.setAttribute('href', a_delete_content);
+                          var i_delete = document.createElement("i");
+                          i_delete.setAttribute('class','material-icons');
+                          i_delete.innerHTML = "delete"; 
 
                           document.getElementById('vid_list').appendChild(newLi);
                           newLi.appendChild(span_primary);
@@ -251,6 +260,8 @@
                             a_shift_down.appendChild(i_shift_down);
                           }
 
+                          span_secondary.appendChild(a_delete);
+                          a_delete.appendChild(i_delete);
                         }
                     }
                 });
@@ -308,7 +319,15 @@
                           a_shift_down.setAttribute('href', a_down_content);
                           var i_shift_down = document.createElement("i");
                           i_shift_down.setAttribute('class','material-icons');
-                          i_shift_down.innerHTML = "keyboard_arrow_down"; 
+                          i_shift_down.innerHTML = "keyboard_arrow_down";
+
+                          var a_delete = document.createElement("a");
+                          a_delete.setAttribute('class', 'mdl-list__item-secondary-action');
+                          var a_delete_content = "javascript:videoDelete('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
+                          a_delete.setAttribute('href', a_delete_content);
+                          var i_delete = document.createElement("i");
+                          i_delete.setAttribute('class','material-icons');
+                          i_delete.innerHTML = "delete"; 
 
                           document.getElementById('vid_list').appendChild(newLi);
                           newLi.appendChild(span_primary);
@@ -324,6 +343,91 @@
                             a_shift_down.appendChild(i_shift_down);
                           }
 
+                          span_secondary.appendChild(a_delete);
+                          a_delete.appendChild(i_delete);
+                        }
+                    }
+                });
+              }
+
+              function videoDelete(course_name, video_filename) {
+                
+                $.ajax({
+                    url : '/videoDelete',
+                    type : 'POST',
+                    data : {
+                        coursename : course_name,
+                        video_filename : video_filename
+                    },
+                    error : function(xhr, textStatus, thrownError) {
+                        console.log("Errorr");
+                        console.log(thrownError);
+                        console.log(textStatus);
+                        console.log(xhr);
+                    },
+                    success : function(data) {
+                        console.log("Deleted!!!!");
+                        console.log(data.videos);
+                        console.log(data.course_name);
+                        document.getElementById('vid_list').innerHTML = "";
+                        
+                        for(var i=0; i<data.videos.length; i++) {
+
+                          var newLi = document.createElement("li");
+                          newLi.setAttribute('class','mdl-list__item mdl-list__item--two-line');
+                          newLi.setAttribute('data-val', data.videos[i].video_name);
+
+                          var span_primary = document.createElement("span");
+                          span_primary.setAttribute('class','mdl-list__item-primary-content');
+                          var span_primary_name = document.createElement("span");
+                          span_primary_name.innerHTML = data.videos[i].video_name;
+                          var span_primary_time = document.createElement("span");
+                          span_primary_time.setAttribute('class','mdl-list__item-sub-title');
+                          span_primary_time.innerHTML = "Video Time";
+
+                          var span_secondary = document.createElement("span");
+                          span_secondary.setAttribute('class', 'mdl-list__item-secondary-content');
+                          
+                          var a_shift_up = document.createElement("a");
+                          a_shift_up.setAttribute('class', 'mdl-list__item-secondary-action');
+                          var a_up_content = "javascript:shiftUp('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
+                          a_shift_up.setAttribute('href', a_up_content);
+                          var i_shift_up = document.createElement("i");
+                          i_shift_up.setAttribute('class','material-icons');
+                          i_shift_up.innerHTML = "keyboard_arrow_up";
+
+                          var a_shift_down = document.createElement("a");
+                          a_shift_down.setAttribute('class', 'mdl-list__item-secondary-action');
+                          var a_down_content = "javascript:shiftDown('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
+                          a_shift_down.setAttribute('href', a_down_content);
+                          var i_shift_down = document.createElement("i");
+                          i_shift_down.setAttribute('class','material-icons');
+                          i_shift_down.innerHTML = "keyboard_arrow_down"; 
+
+                          var a_delete = document.createElement("a");
+                          a_delete.setAttribute('class', 'mdl-list__item-secondary-action');
+                          var a_delete_content = "javascript:videoDelete('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
+                          a_delete.setAttribute('href', a_delete_content);
+                          var i_delete = document.createElement("i");
+                          i_delete.setAttribute('class','material-icons');
+                          i_delete.innerHTML = "delete"; 
+
+                          document.getElementById('vid_list').appendChild(newLi);
+                          newLi.appendChild(span_primary);
+                          span_primary.appendChild(span_primary_name);
+                          span_primary.appendChild(span_primary_time);
+                          newLi.appendChild(span_secondary);
+                          if(i != 0) {
+                            span_secondary.appendChild(a_shift_up);
+                            a_shift_up.appendChild(i_shift_up);
+                          }
+                          if(i != data.videos.length-1 ) {
+                            span_secondary.appendChild(a_shift_down);
+                            a_shift_down.appendChild(i_shift_down);
+                          }
+
+                          span_secondary.appendChild(a_delete);
+                          a_delete.appendChild(i_delete);
                         }
                     }
                 });
