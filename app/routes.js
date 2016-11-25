@@ -609,7 +609,8 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 					videos : course_videos,
 					viewername : req.user.user.firstname,
 					comments : comments,
-					paypal_email : paypal_email
+					paypal_email : paypal_email,
+					currentvideo : ""
 				})
 			});
 
