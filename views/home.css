@@ -1,0 +1,31 @@
+.demo-card-square.mdl-card {
+  width: 320px;
+  height: 320px;
+}
+.demo-card-square > .mdl-card__title {
+  color: #fff;
+  background:
+    url('../assets/demos/dog.png') bottom right 15% no-repeat #46B6AC;
+}
+
+
+
+.demo-card-image.mdl-card  {
+  width: 200px;
+  height: 100px;
+  background: url('dd.jpg') center / cover;
+}
+.demo-card-image > .mdl-card__actions {
+  height: 40px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.2);
+}
+.demo-card-image__filename {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+#thePlayer{
+  text-align: center;
+}

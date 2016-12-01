@@ -4,6 +4,26 @@
       <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
       <link rel="stylesheet" type="text/css" href ="hello.css">
+       <style>
+        .mdl-button--file input{
+          cursor: pointer;
+          height: 100%;
+          right: 0;
+          opacity: 0;
+          position: absolute;
+          top: 0;
+          width: 300px;
+          z-index: 4;
+        }
+
+        .mdl-textfield--file  .mdl-textfield__input {
+          box-sizing: border-box;
+          width: calc(100% - 32px);
+        }
+        .mdl-textfield--file  .mdl-button--file {
+          right: 0;
+        }
+      </style>
    </head>
 <body>
 <div id = class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -15,15 +35,15 @@
       <div class="mdl-layout-spacer"></div>
       <!-- Navigation. We hide it in small screens. -->
       <nav id = "nav"class="mdl-navigation mdl-layout--large-screen-only">
-
-        <a class ="mdl-navigation__link" href="">Profile</a>
-
-        <a class="mdl-navigation__link" href="">Statistics</a>
+        <a class="mdl-navigation__link" href="">Homepage</a>
+        <a class ="mdl-navigation__link" href="">Enrolled Courses</a>
+        <a class="mdl-navigation__link" href="">Update Profile</a>
         <a class="mdl-navigation__link" href="">Logout</a>
+        <a class="mdl-navigation__link" href="">hello user</a>
       </nav>
     </div>
     <div id= "huh"class = "mdl-layout__header-row">
- <span class="mdl-layout-title">ADMIN DASHBOARD</span>
+ <span class="mdl-layout-title">VIEWER DASHBOARD</span>
 <div class="mdl-layout-spacer"></div>
       <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
                   mdl-textfield--floating-label mdl-textfield--align-right">
@@ -51,22 +71,17 @@
     </nav>
   </div>
 
-<main >
-   <div class="mdl-layout">
-        All courses <br/>
-        <%  for(var i=0; i<courses.length; i++) { %>
-        <form method="post" action='/editcourse'>
-        <div class="mdl-cell mdl-cell--12-col send-button">
-            <button type="submit" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--raised mdl-button--colored mdl-color--primary" name='<%= courses[i].course_name %>'>
-            <%= courses[i].course_name %>
-            </button>
-        </div>
-        </form>
-        <br/>
-        <% } %> 
-      </div>
-  
 
-      </main>
-    </body>
-    </html>
+    <main class="mdl-layout__content">
+    <div class="page-content">
+      
+
+      <P>SdvWKJVNKWV</P>
+    </div>
+
+    
+
+  </main>
+</div>
+</body>
+<html>

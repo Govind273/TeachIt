@@ -1,12 +1,10 @@
-<!DOCTYPE html>
 <html>
-    <head>
-      <link rel="stylesheet" href="/scripts/material.min.css">
-    	<script src="/scripts/material.min.js"></script>
+   <head>
+      <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
+      <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <script  src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-      <title>Create your course!</title>
+      <link rel="stylesheet" type="text/css" href ="hello.css">
+
       <style>
         .mdl-button--file input{
           cursor: pointer;
@@ -27,15 +25,54 @@
           right: 0;
         }
       </style>
-    </head>
-    <body>
-      <% include uploader_navbar.html %>
-      <br/><br/><br/>
+   </head>
+<body>
+<div id = class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div id = "huh"class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title" id = "teachit">TeachIt</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+      <nav id = "nav"class="mdl-navigation mdl-layout--large-screen-only">
 
-      <div class="mdl-grid">
-      <div class="mdl-cell">
+        <a class ="mdl-navigation__link" href="">Profile</a>
+
+        <a class="mdl-navigation__link" href="">Statistics</a>
+        <a class="mdl-navigation__link" href="">Logout</a>
+      </nav>
+    </div>
+    <div id= "huh"class = "mdl-layout__header-row">
+ <span class="mdl-layout-title">UPLOADER DASHBOARD</span>
+<div class="mdl-layout-spacer"></div>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
+                  mdl-textfield--floating-label mdl-textfield--align-right">
+        <label class="mdl-button mdl-js-button mdl-button--icon"
+               for="fixed-header-drawer-exp">
+          <i class="material-icons">search</i>
+
+        </label>
+        <div class="mdl-textfield__expandable-holder">
+          <input class="mdl-textfield__input" type="text" name="sample"
+                 id="fixed-header-drawer-exp">
+        </div>
+      </div>
+      
+  </header>
+  
+
+
+    <main class="mdl-layout__content">
+      <div>
+     <div class="mdl-grid" >
+       <div class="mdl-cell mdl-cell--4-col" >
+  
+  
+      <!--Course details-->
+      
         <div class="mdl-card mdl-shadow--16dp util-center util-spacing-h--40px">
-            <div class="mdl-card__title mdl-color--orange-800">
+            <div class="mdl-card__title mdl-color--teal-500">
                 <h2 class="mdl-card__title-text mdl-color-text--white">Course Details</h2>
             </div>
             <div class="mdl-card__supporting-text mdl-grid">
@@ -69,12 +106,12 @@
             </div>
         </div>
       </div>
-      </div>
-
-      <div class="mdl-grid">
-      <div class="mdl-cell">
+    
+      <!--course details finish-->
+      <div style="padding-left:50px"class="mdl-cell mdl-cell--4-col" >
+     
         <div class="mdl-card mdl-shadow--16dp util-center util-spacing-h--40px">
-            <div class="mdl-card__title mdl-color--orange-800">
+            <div class="mdl-card__title mdl-color--teal-500">
                 <h2 class="mdl-card__title-text mdl-color-text--white">Add video</h2>
             </div>
             <div class="mdl-card__supporting-text mdl-grid">
@@ -100,20 +137,10 @@
                         <input class="mdl-textfield__input" type="text" id="textfield_quizqn" name="video_quizqn"/>
                     </div>
 
-                  <!--   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
                         <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_quizans">Quiz Answer</label>
                         <input class="mdl-textfield__input" type="text" id="textfield_quizans" name="video_quizans"/>
-                    </div> -->
-
-                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="true">
-                      <input type="radio" id="true" class="mdl-radio__button" name="video_quizans" value="1" checked>
-                      <span class="mdl-radio__label">True</span>
-                    </label>
-
-                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="false">
-                      <input type="radio" id="false" class="mdl-radio__button" name="video_quizans" value="2">
-                      <span class="mdl-radio__label">False</span>
-                    </label>
+                    </div>
 
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
                         <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_videokeyword">Keyword</label>
@@ -123,7 +150,7 @@
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--file">
                       <input class="mdl-textfield__input" placeholder="File" type="text" id="uploadFile" readonly/>
                       <div class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
-                        <i class="material-icons">attach_file</i><input type="file" name="userPhoto" id="uploadBtn" accept=".mp4">
+                        <i class="material-icons">attach_file</i><input type="file" name="userPhoto" id="uploadBtn">
                       </div>
                     </div>
                       
@@ -141,8 +168,9 @@
                   };
                 </script>
             </div>
-        </div>
-      </div>
+        
+    </div>
+    </div><!--add video finish here-->
       <!-- <div class="mdl-cell">
         <div class="mdl-card mdl-shadow--16dp util-center util-spacing-h--40px">
             <div class="mdl-card__title mdl-color--orange-800">
@@ -157,293 +185,26 @@
         </div>
       </div>
     </div> -->
-
-    <div class="mdl-cell">
+  
+     <div style="padding-left:90px"class="mdl-cell mdl-cell--4-col" >
         <div class="mdl-card mdl-shadow--16dp util-center util-spacing-h--40px">
-            <div class="mdl-card__title mdl-color--orange-800">
+            <div class="mdl-card__title mdl-color--teal-500">
                 <h2 class="mdl-card__title-text mdl-color-text--white">Video List</h2>
             </div>
-            <!--<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
               <input class="mdl-textfield__input" id="videos" name="videos" value="Show videos" type="text" readonly tabIndex="-1" data-val=""/>
-                <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="videos">
                 <%  for(var i=0; i<course_details.videos.length; i++) { %>
                 <li class="mdl-menu__item" data-val='<%= course_details.videos[i].video_name %>'><%= course_details.videos[i].video_name %></li>
                         <%  }%>
               </ul>
-            </div>-->
-            <div>
-              <ul class="mdl-list" id="vid_list">
-                <%  for(var i=0; i<course_details.videos.length; i++) { %>
-                <li class="mdl-list__item mdl-list__item--two-line" data-val='<%= course_details.videos[i].video_name %>'>
-                  <span class="mdl-list__item-primary-content">
-                    <span><%= course_details.videos[i].video_name %></span>
-                    <span class="mdl-list__item-sub-title">Video Time</span>
-                  </span>
-                  <span class="mdl-list__item-secondary-content">
-                    <% if(i != 0) { %>
-                    <a class="mdl-list__item-secondary-action" href="javascript:shiftUp('<%= course_details.course_name %>', '<%= course_details.videos[i].video_filename %>')"><i class="material-icons">keyboard_arrow_up</i></a>
-                    <% } %>
-                    <% if(i != course_details.videos.length-1) { %>
-                    <a class="mdl-list__item-secondary-action" href="javascript:shiftDown('<%= course_details.course_name %>', '<%= course_details.videos[i].video_filename %>')"><i class="material-icons">keyboard_arrow_down</i></a>
-                    <% } %>
-                    <a class="mdl-list__item-secondary-action" href="javascript:videoDelete('<%= course_details.course_name %>', '<%= course_details.videos[i].video_filename %>')"><i class="material-icons">delete</i></a>
-                  </span>
-                </li>
-                <%  }%>
-              </ul>
             </div>
-
-            <script> 
-              function shiftUp(course_name, video_filename) {
-                
-                $.ajax({
-                    url : '/shiftUp',
-                    type : 'POST',
-                    data : {
-                        coursename : course_name,
-                        video_filename : video_filename
-                    },
-                    error : function(xhr, textStatus, thrownError) {
-                        console.log("Errorr");
-                        console.log(thrownError);
-                        console.log(textStatus);
-                        console.log(xhr);
-                    },
-                    success : function(data) {
-                        console.log("Shifted UPPPP!!!!");
-                        console.log(data.videos);
-                        console.log(data.course_name);
-                        document.getElementById('vid_list').innerHTML = "";
-                        
-                        for(var i=0; i<data.videos.length; i++) {
-
-                          var newLi = document.createElement("li");
-                          newLi.setAttribute('class','mdl-list__item mdl-list__item--two-line');
-                          newLi.setAttribute('data-val', data.videos[i].video_name);
-
-                          var span_primary = document.createElement("span");
-                          span_primary.setAttribute('class','mdl-list__item-primary-content');
-                          var span_primary_name = document.createElement("span");
-                          span_primary_name.innerHTML = data.videos[i].video_name;
-                          var span_primary_time = document.createElement("span");
-                          span_primary_time.setAttribute('class','mdl-list__item-sub-title');
-                          span_primary_time.innerHTML = "Video Time";
-
-                          var span_secondary = document.createElement("span");
-                          span_secondary.setAttribute('class', 'mdl-list__item-secondary-content');
-                          
-                          var a_shift_up = document.createElement("a");
-                          a_shift_up.setAttribute('class', 'mdl-list__item-secondary-action');
-                          var a_up_content = "javascript:shiftUp('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
-                          a_shift_up.setAttribute('href', a_up_content);
-                          var i_shift_up = document.createElement("i");
-                          i_shift_up.setAttribute('class','material-icons');
-                          i_shift_up.innerHTML = "keyboard_arrow_up";
-
-                          var a_shift_down = document.createElement("a");
-                          a_shift_down.setAttribute('class', 'mdl-list__item-secondary-action');
-                          var a_down_content = "javascript:shiftDown('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
-                          a_shift_down.setAttribute('href', a_down_content);
-                          var i_shift_down = document.createElement("i");
-                          i_shift_down.setAttribute('class','material-icons');
-                          i_shift_down.innerHTML = "keyboard_arrow_down";
-
-                          var a_delete = document.createElement("a");
-                          a_delete.setAttribute('class', 'mdl-list__item-secondary-action');
-                          var a_delete_content = "javascript:videoDelete('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
-                          a_delete.setAttribute('href', a_delete_content);
-                          var i_delete = document.createElement("i");
-                          i_delete.setAttribute('class','material-icons');
-                          i_delete.innerHTML = "delete"; 
-
-                          document.getElementById('vid_list').appendChild(newLi);
-                          newLi.appendChild(span_primary);
-                          span_primary.appendChild(span_primary_name);
-                          span_primary.appendChild(span_primary_time);
-                          newLi.appendChild(span_secondary);
-                          if(i != 0) {
-                            span_secondary.appendChild(a_shift_up);
-                            a_shift_up.appendChild(i_shift_up);
-                          }
-                          if(i != data.videos.length-1 ) {
-                            span_secondary.appendChild(a_shift_down);
-                            a_shift_down.appendChild(i_shift_down);
-                          }
-
-                          span_secondary.appendChild(a_delete);
-                          a_delete.appendChild(i_delete);
-                        }
-                    }
-                });
-              }
-
-              function shiftDown(course_name, video_filename) {
-                
-                $.ajax({
-                    url : '/shiftDown',
-                    type : 'POST',
-                    data : {
-                        coursename : course_name,
-                        video_filename : video_filename
-                    },
-                    error : function(xhr, textStatus, thrownError) {
-                        console.log("Errorr");
-                        console.log(thrownError);
-                        console.log(textStatus);
-                        console.log(xhr);
-                    },
-                    success : function(data) {
-                        console.log("Shifted Downnnn!!!!");
-                        console.log(data.videos);
-                        console.log(data.course_name);
-                        document.getElementById('vid_list').innerHTML = "";
-                        
-                        for(var i=0; i<data.videos.length; i++) {
-
-                          var newLi = document.createElement("li");
-                          newLi.setAttribute('class','mdl-list__item mdl-list__item--two-line');
-                          newLi.setAttribute('data-val', data.videos[i].video_name);
-
-                          var span_primary = document.createElement("span");
-                          span_primary.setAttribute('class','mdl-list__item-primary-content');
-                          var span_primary_name = document.createElement("span");
-                          span_primary_name.innerHTML = data.videos[i].video_name;
-                          var span_primary_time = document.createElement("span");
-                          span_primary_time.setAttribute('class','mdl-list__item-sub-title');
-                          span_primary_time.innerHTML = "Video Time";
-
-                          var span_secondary = document.createElement("span");
-                          span_secondary.setAttribute('class', 'mdl-list__item-secondary-content');
-                          
-                          var a_shift_up = document.createElement("a");
-                          a_shift_up.setAttribute('class', 'mdl-list__item-secondary-action');
-                          var a_up_content = "javascript:shiftUp('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
-                          a_shift_up.setAttribute('href', a_up_content);
-                          var i_shift_up = document.createElement("i");
-                          i_shift_up.setAttribute('class','material-icons');
-                          i_shift_up.innerHTML = "keyboard_arrow_up";
-
-                          var a_shift_down = document.createElement("a");
-                          a_shift_down.setAttribute('class', 'mdl-list__item-secondary-action');
-                          var a_down_content = "javascript:shiftDown('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
-                          a_shift_down.setAttribute('href', a_down_content);
-                          var i_shift_down = document.createElement("i");
-                          i_shift_down.setAttribute('class','material-icons');
-                          i_shift_down.innerHTML = "keyboard_arrow_down";
-
-                          var a_delete = document.createElement("a");
-                          a_delete.setAttribute('class', 'mdl-list__item-secondary-action');
-                          var a_delete_content = "javascript:videoDelete('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
-                          a_delete.setAttribute('href', a_delete_content);
-                          var i_delete = document.createElement("i");
-                          i_delete.setAttribute('class','material-icons');
-                          i_delete.innerHTML = "delete"; 
-
-                          document.getElementById('vid_list').appendChild(newLi);
-                          newLi.appendChild(span_primary);
-                          span_primary.appendChild(span_primary_name);
-                          span_primary.appendChild(span_primary_time);
-                          newLi.appendChild(span_secondary);
-                          if(i != 0) {
-                            span_secondary.appendChild(a_shift_up);
-                            a_shift_up.appendChild(i_shift_up);
-                          }
-                          if(i != data.videos.length-1 ) {
-                            span_secondary.appendChild(a_shift_down);
-                            a_shift_down.appendChild(i_shift_down);
-                          }
-
-                          span_secondary.appendChild(a_delete);
-                          a_delete.appendChild(i_delete);
-                        }
-                    }
-                });
-              }
-
-              function videoDelete(course_name, video_filename) {
-                
-                $.ajax({
-                    url : '/videoDelete',
-                    type : 'POST',
-                    data : {
-                        coursename : course_name,
-                        video_filename : video_filename
-                    },
-                    error : function(xhr, textStatus, thrownError) {
-                        console.log("Errorr");
-                        console.log(thrownError);
-                        console.log(textStatus);
-                        console.log(xhr);
-                    },
-                    success : function(data) {
-                        console.log("Deleted!!!!");
-                        console.log(data.videos);
-                        console.log(data.course_name);
-                        document.getElementById('vid_list').innerHTML = "";
-                        
-                        for(var i=0; i<data.videos.length; i++) {
-
-                          var newLi = document.createElement("li");
-                          newLi.setAttribute('class','mdl-list__item mdl-list__item--two-line');
-                          newLi.setAttribute('data-val', data.videos[i].video_name);
-
-                          var span_primary = document.createElement("span");
-                          span_primary.setAttribute('class','mdl-list__item-primary-content');
-                          var span_primary_name = document.createElement("span");
-                          span_primary_name.innerHTML = data.videos[i].video_name;
-                          var span_primary_time = document.createElement("span");
-                          span_primary_time.setAttribute('class','mdl-list__item-sub-title');
-                          span_primary_time.innerHTML = "Video Time";
-
-                          var span_secondary = document.createElement("span");
-                          span_secondary.setAttribute('class', 'mdl-list__item-secondary-content');
-                          
-                          var a_shift_up = document.createElement("a");
-                          a_shift_up.setAttribute('class', 'mdl-list__item-secondary-action');
-                          var a_up_content = "javascript:shiftUp('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
-                          a_shift_up.setAttribute('href', a_up_content);
-                          var i_shift_up = document.createElement("i");
-                          i_shift_up.setAttribute('class','material-icons');
-                          i_shift_up.innerHTML = "keyboard_arrow_up";
-
-                          var a_shift_down = document.createElement("a");
-                          a_shift_down.setAttribute('class', 'mdl-list__item-secondary-action');
-                          var a_down_content = "javascript:shiftDown('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
-                          a_shift_down.setAttribute('href', a_down_content);
-                          var i_shift_down = document.createElement("i");
-                          i_shift_down.setAttribute('class','material-icons');
-                          i_shift_down.innerHTML = "keyboard_arrow_down"; 
-
-                          var a_delete = document.createElement("a");
-                          a_delete.setAttribute('class', 'mdl-list__item-secondary-action');
-                          var a_delete_content = "javascript:videoDelete('"+data.course_name + "', '" + data.videos[i].video_filename + "')";
-                          a_delete.setAttribute('href', a_delete_content);
-                          var i_delete = document.createElement("i");
-                          i_delete.setAttribute('class','material-icons');
-                          i_delete.innerHTML = "delete"; 
-
-                          document.getElementById('vid_list').appendChild(newLi);
-                          newLi.appendChild(span_primary);
-                          span_primary.appendChild(span_primary_name);
-                          span_primary.appendChild(span_primary_time);
-                          newLi.appendChild(span_secondary);
-                          if(i != 0) {
-                            span_secondary.appendChild(a_shift_up);
-                            a_shift_up.appendChild(i_shift_up);
-                          }
-                          if(i != data.videos.length-1 ) {
-                            span_secondary.appendChild(a_shift_down);
-                            a_shift_down.appendChild(i_shift_down);
-                          }
-
-                          span_secondary.appendChild(a_delete);
-                          a_delete.appendChild(i_delete);
-                        }
-                    }
-                });
-              }
-        </script>
       </div>
     </div>
-    </body>
-</html>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+<html>

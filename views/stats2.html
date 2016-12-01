@@ -1,0 +1,110 @@
+<html>
+   <head>
+      <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
+      <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link rel="stylesheet" type="text/css" href ="hello.css">
+
+
+
+
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Work',     11],
+          ['Eat',      2],
+          ['Commute',  2],
+          ['Watch TV', 2],
+          ['Sleep',    7]
+        ]);
+
+        var options = {
+          title: 'My Daily Activities',
+          pieHole: 0.4,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
+      }
+    </script>
+
+  
+       
+</head>
+<body>
+<div id = class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div id = "huh"class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title" id = "teachit">TeachIt</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+      <nav id = "nav"class="mdl-navigation mdl-layout--large-screen-only">
+        <a class ="mdl-navigation__link" href="">Dashboard</a>
+
+        <a class ="mdl-navigation__link" href="">uPDATE Profile</a>
+
+        <a class="mdl-navigation__link" href="">Crete Course</a>
+                <a class="mdl-navigation__link" href="">Bank Details</a>
+
+        <a class="mdl-navigation__link" href="">Logout</a>
+      </nav>
+    </div>
+    <div id= "huh"class = "mdl-layout__header-row">
+ <span class="mdl-layout-title">UPLOADER DASHBOARD</span>
+<div class="mdl-layout-spacer"></div>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
+                  mdl-textfield--floating-label mdl-textfield--align-right">
+        <label class="mdl-button mdl-js-button mdl-button--icon"
+               for="fixed-header-drawer-exp">
+          <i class="material-icons">search</i>
+
+        </label>
+        <div class="mdl-textfield__expandable-holder">
+          <input class="mdl-textfield__input" type="text" name="sample"
+                 id="fixed-header-drawer-exp">
+        </div>
+      </div>
+      
+  </header>
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer
+            mdl-layout--fixed-header">
+    <div id="fixed_drawer"class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Courses/ What?</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="">Course Genre 1/ Courses</a>
+      <a class="mdl-navigation__link" href="">Course Genre 2/Uploaderr</a>
+      <a class="mdl-navigation__link" href="">Course Genre 3/viewe</a>
+      <a class="mdl-navigation__link" href="">Course Genre 4</a>
+    </nav>
+  </div>
+
+
+  <main class="mdl-layout__content">
+    <div>
+      
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+    for="demo-menu-lower-right">
+  <li class="mdl-menu__item">Some Action</li>
+  <li class="mdl-menu__item">Another Action</li>
+  <li disabled class="mdl-menu__item">Disabled Action</li>
+  <li class="mdl-menu__item">Yet Another Action</li>
+</ul>
+      <div style="padding-left:30px; padding-top:20px;">
+      
+    <div id="donutchart" style="width: 750px; height: 400px;"></div>
+  
+
+      </div>
+    </div>
+    </div>
+  </main>
+
+</body>
+<html>
