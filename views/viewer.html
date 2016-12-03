@@ -1,18 +1,76 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <link rel="stylesheet" href="/scripts/material.min.css">
+
+         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+
+  <!-- CSS  -->
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+ 
+   <link href="css/home_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+ <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+
+<!--       <link rel="stylesheet" href="/scripts/material.min.css">
       <script src="/scripts/material.min.js"></script>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+
+
       <title>Homepage!</title>
     </head>
     <body>
-    <div>
-      <% include viewer_navbar.html %>
-      </div> 
-      <br/><br/><br/><br/>
-      <div class="mdl-layout">
+     <% include viewer_navbar.html %>
+<link href="css/viewer_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  
+
+<!--       <div> 
+
+      <ul id="slide-out" class="side-nav fixed">
+    <li><div class="userView">
+      <div class="background">
+        <img src="">
+      </div>
+      <a href="#"><img class="circle" src=""></a>
+      <a href="#!"><span class="white-text name">John Doe</span></a>
+      <a href="#"><span class="white-text email">jdandturk@gmail.com</span></a>
+    </div></li>
+    <li><a href="#"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+    <li><a href="#">Second Link</a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="subheader">Subheader</a></li>
+    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+  </ul>
+  <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+        
+  </div> -->
+
+    <div class="row">
+
+      <div class="col s3">
+        <!-- Grey navigation panel -->
+        <div>
+
+  <ul class="side-nav fixed">
+    <li>
+      <div class="userView">
+        <div class="background">
+          <img src="images/coursesoffered.jpeg">
+        </div>
+         <!--  <a href="\viewer"><img src="images/rsz_logo.png"></a>  -->
+          <br>
+          <br>
+          <br>
+      </div>
+    </li>
+
+    <li class="center">
+    <p style="padding-right: 40px"><b><I>COURSES</I></b> </p>
+    </li>
+
         <% var genre_map = new Map(); %>
         <% for(var i=0; i<all_users.length; i++) { %>
         <%    for(var j=0; j<all_users[i].user.courses_created.length; j++) { %>
@@ -27,18 +85,234 @@
         <%        genre_map.set(course.course_genre, course_list); } %>
         <% } } %>
         <% genre_map.forEach(function(value, key) { %>
-        <%= key %>
-        <% for(var k=0; k<value.length; k++) {%>
-        <form method="post" action='/enrollcourse'>
-          <div class="mdl-cell mdl-cell--12-col send-button">
-            <button type="submit" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--raised mdl-button--colored mdl-color--primary" name='<%= value[k] %>'>
-            <%= value[k] %>
-            </button>
-          </div>
-        </form>
-        <% } %>
-        <br/><br/>
-        <% }); %>
+
+    <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+            <li class="bold"><a class="collapsible-header"><%= key %></a>
+              <div class="collapsible-body">
+              <ul>
+                <% for(var k=0; k<value.length; k++) {%>
+                  <li >
+                  <form id="myform" method="post" action="/enrollcourse">
+                      <input type="hidden" name='<%= value[k] %>' value="value" /> 
+                      <a onclick="document.getElementById('myform').submit();">
+                      <%= value[k] %>
+                    </a>
+                     </form>
+                  </li>
+                  <% } %>
+                  </ul>
+              </div>
+            </li>
+        </ul>
+    </li>
+   
+    <% }); %>      
+  </ul>
+  <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+        
+  </div> 
       </div>
+
+<div class="col s8">
+
+
+      <div class ="row">
+        <div class="col s7">
+          <h2> Search </h2>
+            <nav>
+              <div class="nav-wrapper search-bar-size">
+                <form method="post" action="/search">
+                  <div class="input-field">
+                    <input id="search" type="search" required>
+                    <label for="search"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
+                  </div>
+                </form>
+              </div>
+            </nav>
+        </div>
+      </div>
+
+          
+
+          
+
+
+      <div class ="row">
+            <div class="col s9 m4">
+        <!-- Teal page content  -->
+              <!-- Recommended courses lise -->
+      <div class="card small">
+          <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="images/rsz_1rsz_11rsz_logo.png">
+        </div>
+
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right">more_vert</i></span>
+          
+        </div>
+
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+          <p>Here is some more information about this product that is only revealed once clicked on.</p>
+        </div>
+      </div>
+
+
+      </div>
+
+            <div class="col s9 m4">
+        <!-- Teal page content  -->
+              <!-- Recommended courses lise -->
+      <div class="card small">
+          <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="images/rsz_1rsz_11rsz_logo.png">
+        </div>
+
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right">more_vert</i></span>
+          
+        </div>
+
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+          <p>Here is some more information about this product that is only revealed once clicked on.</p>
+        </div>
+      </div>
+
+
+      </div>
+
+
+                  <div class="col s9 m4">
+        <!-- Teal page content  -->
+              <!-- Recommended courses lise -->
+      <div class="card small">
+          <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="images/rsz_1rsz_11rsz_logo.png">
+        </div>
+
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right">more_vert</i></span>
+          
+        </div>
+
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+          <p>Here is some more information about this product that is only revealed once clicked on.</p>
+        </div>
+      </div>
+
+
+      </div>
+
+
+      </div>
+
+            <div class ="row">
+        <div class="col s7">
+          <h2> Recently Viewed </h2>
+        </div>
+      </div>
+
+      <div class ="row">
+            <div class="col s9 m4">
+        <!-- Teal page content  -->
+              <!-- Recommended courses lise -->
+      <div class="card small">
+          <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="images/rsz_1rsz_11rsz_logo.png">
+        </div>
+
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right">more_vert</i></span>
+          
+        </div>
+
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+          <p>Here is some more information about this product that is only revealed once clicked on.</p>
+        </div>
+      </div>
+
+
+      </div>
+
+            <div class="col s9 m4">
+        <!-- Teal page content  -->
+              <!-- Recommended courses lise -->
+      <div class="card small">
+          <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="images/rsz_1rsz_11rsz_logo.png">
+        </div>
+
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right">more_vert</i></span>
+          
+        </div>
+
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+          <p>Here is some more information about this product that is only revealed once clicked on.</p>
+        </div>
+      </div>
+
+
+      </div>
+
+
+                  <div class="col s9 m4">
+        <!-- Teal page content  -->
+              <!-- Recommended courses lise -->
+      <div class="card small">
+          <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="images/rsz_1rsz_11rsz_logo.png">
+        </div>
+
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right">more_vert</i></span>
+          
+        </div>
+
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+          <p>Here is some more information about this product that is only revealed once clicked on.</p>
+        </div>
+      </div>
+
+
+      </div>
+
+
+      </div>
+
+</div>
+
+
+
+    </div>
+          
+
+
+
+
+
+
+
+
+
+
+      <br/><br/><br/><br/>
+
+
+
+
+
+        <!--  Scripts-->s
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+
+
     </body>
 </html>

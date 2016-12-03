@@ -1,54 +1,50 @@
-<!DOCTYPE html>
-<html>
-    <head>
-      <link rel="stylesheet" href="/scripts/material.min.css">
-    	<script src="/scripts/material.min.js"></script>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!DOCTYPE html>
+  <html>
+  <head>
 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+    <title>Teach It Home Page</title>
 
-      <!-- CSS  -->
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <!-- <link href="css/viewer_style.css" type="text/css" rel="stylesheet" media="screen,projection"/> -->
+    <link href="css/customstyle.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="css/home_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-      <title>Viewer Navbar!</title>
-    </head>
-    <body>
-      
+    <title>Viewer Navbar!</title>
 
-       <nav class="navbar-color" role="navigation">
-          <div class="nav-wrapper container">
-            <a id="logo-container" href="/viewer" class="brand-logo">Teach It</a>
-            <ul class="right ">
-              <li>
+  </head>
+  <body>
+    
+    <nav class="nav-wrapper navbar-color pad">
+      <div>
+        <a id="logo-container" href="/viewer" class="brand-logo"><img src="images\hometeachitlogo.png" alt="LOGO"></a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+<!--           <li>
+            <nav>
+              <div class="nav-wrapper search-bar-size">
                 <form method="post" action="/search">
-                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-                    <label class="mdl-button mdl-js-button mdl-button--icon" for="search_word">
-                      <i class="material-icons">search</i>
-                    </label>
-                    <div class="mdl-textfield__expandable-holder">
-                      <input class="mdl-textfield__input" type="text" id="search_word" name="search_word">
-                      <label class="mdl-textfield__label" for="sample-expandable"></label>
-                    </div>
+                  <div class="input-field">
+                    <input id="search" type="search" required>
+                    <label for="search"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
                   </div>
                 </form>
-              </li>
-              <li><a href="#">Courses Enrolled</a></li>
-              <li><a href="/updateprofile">Update Profile</a></li>
-              <li><a href="/logout">Logout</a></li>
-            </ul>
+              </div>
+            </nav>
+          </li> -->
+          <li><a href="/registeredcourses">Courses Enrolled</a></li>
+          <li><a href="/updateprofile">Update Profile</a></li>
+          <li><a href="/logout">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
 
-            <ul id="nav-mobile" class="side-nav">
-              <li><a href="#aboutus">About us</a></li>
-              <li><a href="#contactus">Contact us</a></li>
-              <li><a href="\login">Sign in</a></li>
-            </ul>
-            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-          </div>
-      </nav>
-
-
-    </body>
-</html>
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="js/materialize.js"></script>
+    <script src="js/init.js"></script>
+    
+  </body>
+  </html>

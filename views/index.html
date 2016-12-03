@@ -9,15 +9,16 @@
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-   <link href="css/home_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+ <link href="css/home_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+   
  
 </head>
 <body>
-<!--  <div class="navbar-fixed" > -->
+ <div class="navbar-fixed" >
   <nav class="navbar-color" role="navigation">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="#" class="brand-logo">Logo</a>
+      <a id="logo-container" href="#" class="brand-logo"><img src="images\hometeachitlogo.png" alt="LOGO"></a>
       <ul class="right hide-on-med-and-down ">
         <li><a href="#aboutus">About us</a></li>
          <li><a href="#contactus">Contact us</a></li>
@@ -32,18 +33,39 @@
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
   </nav>
-<!--   </div> -->
+  </div>
+  <div class="carousel carousel-slider center" data-indicators="true">
+    <div class="carousel-fixed-item center">
+      <a class="btn waves-effect white grey-text darken-text-2">button</a>
+    </div>
+    <div class="carousel-item red white-text" href="#one!">
+      <h2>First Panel</h2>
+      <p class="white-text">This is your first panel</p>
+    </div>
+    <div class="carousel-item amber white-text" href="#two!">
+      <h2>Second Panel</h2>
+      <p class="white-text">This is your second panel</p>
+    </div>
+    <div class="carousel-item green white-text" href="#three!">
+      <h2>Third Panel</h2>
+      <p class="white-text">This is your third panel</p>
+    </div>
+    <div class="carousel-item blue white-text" href="#four!">
+      <h2>Fourth Panel</h2>
+      <p class="white-text">This is your fourth panel</p>
+    </div>
+  </div>
 
   <div id="index-banner" class="parallax-container">
     <div class="section no-pad-bot">
       <div class="container" >
         <br><br>
-        <h1 class="header center color-text">Teach It</h1>
+        <h1 class="header center color-text"><img src="images\logo.png" alt="LOGO"></h1>
         <div class="row center">
-          <h5 class="header col s12 color-text">A platform to teach, learn and grow</h5>
+          <h3 class="header col s12 color-text">A platform to teach, learn and grow</h3>
         </div>
         <div class="row center">
-          <a href="\login" id="download-button" class="btn-large waves-effect waves-light color-text button-bgcolor">REGISTER</a>
+         <!--  <a href="\login" id="download-button" class="btn-large waves-effect waves-light color-text button-bgcolor">REGISTER</a> -->
         </div>
         <br><br>
 
@@ -51,6 +73,7 @@
     </div>
     <div class="parallax"><img src="images\image04.jpg" alt="Unsplashed background img 1"></div>
   </div>
+
 
 
   <div class="container" id="aboutus">
@@ -104,7 +127,7 @@
     <div class="parallax"><img src="images\image05.jpg" alt="Unsplashed background img 3"></div>
   </div>
 
-  <footer class="page-footer ">
+  <footer class="page-footer fixed">
     
     <div>
       <div class="container">
@@ -117,6 +140,6 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
-
+  <script type="text/javascript">$('.carousel.carousel-slider').carousel({full_width: true});</script>
   </body>
 </html>
