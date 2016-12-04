@@ -1,27 +1,38 @@
-<!DOCTYPE html>
-<html>
-    <head>
-      <link rel="stylesheet" href="/scripts/material.min.css">
-    	<script src="/scripts/material.min.js"></script>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-      <div class="mdl-layout mdl-js-layout">
-        <header class="mdl-layout__header">
-          <div class="mdl-layout-icon"></div>
-          <div class="mdl-layout__header-row">
-            <span class="mdl-layout__title">TeachIt!</span>
-            <div class="mdl-layout-spacer"></div>
-            <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" href="/uploader">Dashboard</a>
-              <a class="mdl-navigation__link" href="/createcourse">Create Course</a>
-              <a class="mdl-navigation__link" href="/updateprofile">Update Profile</a>
-              <a class="mdl-navigation__link" href="/setdonation">PayPal Details</a>
-              <a class="mdl-navigation__link" href="/logout">Logout</a>
-            </nav>
-          </div>
-        </header>
+  <!DOCTYPE html>
+  <html>
+  <head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+    <title>Teach It Home Page</title>
+ 
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="css/home_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+    <title>Uploader Navbar!</title>
+
+  </head>
+  <body>
+    <div class="navbar-fixed">
+    <nav class="nav-wrapper navbar-color pad">
+      <div>
+        <a id="logo-container" href="/uploader" class="brand-logo"><img src="images\hometeachitlogo.png" alt="LOGO"></a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="/createcourse">Create Course</a></li>
+          <li><a href="/updateprofile">Update Profile</a></li>
+          <li><a href="/setdonation">PayPal Details</a></li>
+          <li><a href="/logout">Logout</a></li>
+        </ul>
       </div>
-    </body>
-</html>
+    </nav>
+    </div>
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="js/materialize.js"></script>
+    <script src="js/init.js"></script>
+    
+  </body>
+  </html>

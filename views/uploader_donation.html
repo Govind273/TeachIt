@@ -1,15 +1,66 @@
 <!DOCTYPE html>
 <html>
-    <head>
-      <link rel="stylesheet" href="/scripts/material.min.css">
-    	<script src="/scripts/material.min.js"></script>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Paypal!</title>
-    </head>
-    <body>
-      <% include uploader_navbar.html %>
-      <br/><br/><br/><br/>
+<head>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/home_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/login_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+  <title>Donation Email!</title>
+    
+</head>
+ 
+<body class="homepage01">
+
+  <% include uploader_navbar.html %>
+  <link href="css/uploader_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+  
+  <div class="materialContainer update-profile-box">
+    <div class="box row" style="display: inline-block;  border: 1px solid #EEE;">
+      <div class="title color-green">Email for Paypal</div>
+      <form method="POST" action="/setDonation">
+        
+            <div class="input">
+              <label for="textfield_email">Email</label>
+              <input class= "remove-border" type="text" id="textfield_email" name="email"/>
+              <span class="spin"></span>  
+            </div>
+
+            <div class="button login ">
+              <button type="submit">
+                <span>
+                  Submit
+                </span> 
+              </button>
+            </div>
+      </form>
+    </div>
+  </div>
+
+
+
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/index.js"></script>
+
+</body>
+</html>
+
+
+
+
+<!--
+
+
       <div class="mdl-layout">
         <form method="post" action='/setDonation'>
         <div class="mdl-cell mdl-cell--12-col send-button">
@@ -29,5 +80,7 @@
         </form>
         <br/>
       </div>
-    </body>
-</html>
+
+
+
+-->
