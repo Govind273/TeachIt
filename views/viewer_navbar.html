@@ -9,38 +9,25 @@
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <!-- <link href="css/viewer_style.css" type="text/css" rel="stylesheet" media="screen,projection"/> -->
-    <link href="css/customstyle.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="css/home_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
     <title>Viewer Navbar!</title>
 
   </head>
   <body>
-    
+    <div class="navbar-fixed">
     <nav class="nav-wrapper navbar-color pad">
       <div>
         <a id="logo-container" href="/viewer" class="brand-logo"><img src="images\hometeachitlogo.png" alt="LOGO"></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-<!--           <li>
-            <nav>
-              <div class="nav-wrapper search-bar-size">
-                <form method="post" action="/search">
-                  <div class="input-field">
-                    <input id="search" type="search" required>
-                    <label for="search"><i class="material-icons">search</i></label>
-                    <i class="material-icons">close</i>
-                  </div>
-                </form>
-              </div>
-            </nav>
-          </li> -->
           <li><a href="/registeredcourses">Courses Enrolled</a></li>
           <li><a href="/updateprofile">Update Profile</a></li>
           <li><a href="/logout">Logout</a></li>
         </ul>
       </div>
     </nav>
-
+    </div>
     <!--  Scripts-->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="js/materialize.js"></script>

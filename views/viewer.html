@@ -11,6 +11,7 @@
  
    <link href="css/home_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
 
@@ -49,77 +50,64 @@
   </div> -->
 
     <div class="row">
-
+      <br/>
+      <div class="col s1">
+      </div>
       <div class="col s3">
         <!-- Grey navigation panel -->
         <div>
 
-  <ul class="side-nav fixed">
-    <li>
-      <div class="userView">
-        <div class="background">
-          <img src="images/coursesoffered.jpeg">
-        </div>
-         <!--  <a href="\viewer"><img src="images/rsz_logo.png"></a>  -->
-          <br>
-          <br>
-          <br>
-      </div>
-    </li>
+          <ul class="collapsible popout" data-collapsible="accordion">
+            <li class="courses center">
+              <p><b><I>COURSES</I></b> </p>
+            </li>
 
-    <li class="center">
-    <p style="padding-right: 40px"><b><I>COURSES</I></b> </p>
-    </li>
+            <% var genre_map = new Map(); %>
+            <% for(var i=0; i<all_users.length; i++) { %>
+            <%    for(var j=0; j<all_users[i].user.courses_created.length; j++) { %>
+            <%      var course = all_users[i].user.courses_created[j] %>
+            <%      var courses = genre_map.get(course.course_genre) %>
+            <%      if(undefined != courses) { %>
+            <%        courses.push(course.course_name); %>
+            <%        genre_map.set(course.course_genre, courses); %>
+            <%      } else { %>
+            <%        var course_list = []; %>
+            <%        course_list.push(course.course_name); %>
+            <%        genre_map.set(course.course_genre, course_list); } %>
+            <% } } %>
+            <% genre_map.forEach(function(value, key) { %>
 
-        <% var genre_map = new Map(); %>
-        <% for(var i=0; i<all_users.length; i++) { %>
-        <%    for(var j=0; j<all_users[i].user.courses_created.length; j++) { %>
-        <%      var course = all_users[i].user.courses_created[j] %>
-        <%      var courses = genre_map.get(course.course_genre) %>
-        <%      if(undefined != courses) { %>
-        <%        courses.push(course.course_name); %>
-        <%        genre_map.set(course.course_genre, courses); %>
-        <%      } else { %>
-        <%        var course_list = []; %>
-        <%        course_list.push(course.course_name); %>
-        <%        genre_map.set(course.course_genre, course_list); } %>
-        <% } } %>
-        <% genre_map.forEach(function(value, key) { %>
-
-    <li class="no-padding">
-        <ul class="collapsible collapsible-accordion">
-            <li class="bold"><a class="collapsible-header"><%= key %></a>
+            <li>
+              <div class="collapsible-header">
+                <i class="material-icons">
+                </i>
+                <%= key %>
+              </div>
               <div class="collapsible-body">
-              <ul>
+                <ul>
                 <% for(var k=0; k<value.length; k++) {%>
-                  <li >
+                  <li class="list-pad">
                   <form id="myform" method="post" action="/enrollcourse">
                       <input type="hidden" name='<%= value[k] %>' value="value" /> 
                       <a onclick="document.getElementById('myform').submit();">
                       <%= value[k] %>
                     </a>
-                     </form>
+                    </form>
                   </li>
                   <% } %>
-                  </ul>
+                </ul>
               </div>
             </li>
-        </ul>
-    </li>
-   
-    <% }); %>      
-  </ul>
-  <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+          
+          <% }); %> 
+          </ul> 
+
         
   </div> 
       </div>
 
-<div class="col s8">
-
-
-      <div class ="row">
-        <div class="col s7">
-          <h2> Search </h2>
+<div class="col s7">
+      <div class ="row search-push-down">
             <nav>
               <div class="nav-wrapper search-bar-size">
                 <form method="post" action="/search">
@@ -131,7 +119,6 @@
                 </form>
               </div>
             </nav>
-        </div>
       </div>
 
           
@@ -167,7 +154,7 @@
               <!-- Recommended courses lise -->
       <div class="card small">
           <div class="card-image waves-effect waves-block waves-light">
-          <img class="activator" src="images/rsz_1rsz_11rsz_logo.png">
+          <img class="activator" src="images/logo.png">
         </div>
 
         <div class="card-content">
@@ -309,10 +296,10 @@
 
 
 
-        <!--  Scripts-->s
-  <script src="js/materialize.js"></script>
+        <!--  Scripts-->
+  <!-- <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
-
+ -->
 
     </body>
 </html>

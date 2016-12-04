@@ -57,7 +57,7 @@ nav .input-field-search {
 
 
 .search-bar-size {
-    width: 625px;
+    width: 100%;
     background-color: #246A73;
 }
 
@@ -66,3 +66,27 @@ nav .input-field-search {
   padding: 10px;
   background-color: #E6E6EA;
 }
+
+.search-push-down {
+  padding-top: 10px;
+}
+
+.list-pad {
+   padding-top: 5px;
+   padding-bottom: 5px;
+   padding-left: 35px;
+}
+
+a {
+  color: #260C1A !important;
+}
+
+.courses {
+  height: 64px;
+  padding-top: 5px;
+}
+
+.likes-box {
+  width: 640px;
+}
+
