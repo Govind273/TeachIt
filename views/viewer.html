@@ -23,11 +23,14 @@
 
       <title>Homepage!</title>
     </head>
- <body class="homepage01">
+ <body class="viewerhomepage01">
      <% include viewer_navbar.html %>
 <link href="css/viewer_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
-    <div class="row">
+
+
+
+    <div class="row" style="opacity: 7">
       <br/>
       <div class="col s1">
       </div>
@@ -36,7 +39,7 @@
         <div>
 
           <ul class="collapsible popout" data-collapsible="accordion">
-            <li class="courses center">
+            <li class="courses center collapsed-button">
               <p><b><I>COURSES</I></b> </p>
             </li>
 
@@ -62,9 +65,9 @@
                 <%= key %>
               </div>
               <div class="collapsible-body">
-                <ul>
+                <ul class="collapsed-button">
                 <% for(var k=0; k<value.length; k++) {%>
-                  <li class="list-pad">
+                  <li class="list-pad" class="navbar-color">
                   <form id="myform" method="post" action="/enrollcourse">
                       <button class="waves-effect btn-flat" type="submit" name="<%= value[k] %>"><%= value[k] %></button>
                     </form>
@@ -87,7 +90,7 @@
               <div class="nav-wrapper search-bar-size">
                 <form method="post" action="/search">
                   <div class="input-field">
-                    <input id="search" type="search" required>
+                    <input id="search" type="search" name="search_word" required>
                     <label for="search"><i class="material-icons">search</i></label>
                     <i class="material-icons">close</i>
                   </div>
@@ -115,7 +118,7 @@
         </div>
 
         <div class="card-content">
-          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right">more_vert</i></span>
+          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right"></i></span>
           
         </div>
 
@@ -137,7 +140,7 @@
         </div>
 
         <div class="card-content">
-          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right">more_vert</i></span>
+          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right"></i></span>
           
         </div>
 
@@ -160,7 +163,7 @@
         </div>
 
         <div class="card-content">
-          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right">more_vert</i></span>
+          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right"></i></span>
           
         </div>
 
@@ -188,7 +191,7 @@
         </div>
 
         <div class="card-content">
-          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right">more_vert</i></span>
+          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right"></i></span>
           
         </div>
 
@@ -210,7 +213,7 @@
         </div>
 
         <div class="card-content">
-          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right">more_vert</i></span>
+          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right"></i></span>
           
         </div>
 
@@ -233,7 +236,7 @@
         </div>
 
         <div class="card-content">
-          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right">more_vert</i></span>
+          <span class="card-title activator grey-text text-darken-4"><p><a href="">Card Title</a></p><i class="material-icons right"></i></span>
           
         </div>
 

@@ -1,63 +1,74 @@
 <!DOCTYPE html>
 <html>
-    <head>
-      <link rel="stylesheet" href="/scripts/material.min.css">
-      <script src="/scripts/material.min.js"></script>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Login or Register</title>
-    </head>
-    <body>
+<head>
 
-      <!-- REGISTER FORM -->
-      <div class="mdl-grid">
-          <div class="mdl-card mdl-shadow--16dp">
-              <div class="mdl-card__title mdl-color--teal-500">
-                  <h2 class="mdl-card__title-text mdl-color-text--white">Create a New Account</h2>
-              </div>
-              <div class="mdl-card__supporting-text mdl-grid">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-                  <b class="mdl-color-text--accent">Error message goes here</b>
-                 
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/home_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/login_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
-                  <form method="POST" action="/adminregister">
-                      <input type="hidden" name="action" value="register"/>
-                      
-                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
-                          <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_new_firstname">First Name</label>
-                          <input class="mdl-textfield__input" type="text" id="textfield_new_firstname" name="firstname" pattern="^[a-z0-9_-]{3,15}$"/>
-                          <span class="mdl-textfield__error">3-15 characters with only lowercase letters, digits, underscore, and hyphen</span>
-                      </div>
+  <title>Admin Register!</title>
+    
+</head>
+ 
+<body class="homepage01">
 
-                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
-                          <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_new_lastname">Last Name</label>
-                          <input class="mdl-textfield__input" type="text" id="textfield_new_lastname" name="lastname" pattern="^[a-z0-9_-]{3,15}$"/>
-                          <span class="mdl-textfield__error">3-15 characters with only lowercase letters, digits, underscore, and hyphen</span>
-                      </div>
+  <% include admin_navbar.html %>
+  <link href="css/admin_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
-                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
-                        <label class="mdl-textfield__label mdl-color-text--grey" for="email">Email</label>
-                        <input class="mdl-textfield__input" type="text" id="email" name="email" />
-                      </div>
+  
+  <div class="materialContainer update-profile-box">
+        <div class="box row" style="display: inline-block;  border: 1px solid #EEE;">
+          <div class="title color-green">Admin Register</div>
+            <form method="POST" action="/register">
+                  <input type="hidden" name="action" value="register"/>
+            <div class="input">
+            <label for="textfield_new_firstname">First Name</label>
+            <input type="text" id="textfield_new_firstname" name="firstname">
+            <span class="spin"></span>
+            </div>
 
-                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
-                          <label class="mdl-textfield__label mdl-color-text--grey" for="textfield_new_password">Password</label>
-                          <input class="mdl-textfield__input" type="password" id="textfield_new_password" name="password"/>
-                                  <!-- pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})"/> -->
-                          <span class="mdl-textfield__error">
-                              6-20 characters with at least a digit, lowercase and uppercase letters,
-                              and special symbol in @#$%
-                          </span>
-                      </div>
+            <div class="input">
+            <label for="email">Last Name</label>
+            <input type="text" id="textfield_new_lastname" name="lastname" >
+            <span class="spin"></span>
+            </div>
 
-                      <div class="mdl-cell mdl-cell--12-col send-button" align="center">
-                          <button class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--raised mdl-button--colored" id="login">
-                              Register
-                          </button>
-                      </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-    </body>
+            <div class="input">
+            <label for="textfield_new_lastname">Email</label>
+            <input type="text" id="email" name="email">
+            <span class="spin"></span>
+            </div>
+
+            <div class="input">
+            <label for="textfield_new_password">Password</label>
+            <input type="password" id="textfield_new_password" name="password">
+            <span class="spin"></span>
+            </div>
+
+            <div class="button login ">
+              <button type="submit">
+                <span>
+                  REGISTER
+                </span> 
+              </button>
+            </div>
+            </form>
+        </div>
+  </div>
+
+
+
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/index.js"></script>
+
+</body>
 </html>

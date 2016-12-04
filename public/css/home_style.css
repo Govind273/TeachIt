@@ -8,7 +8,7 @@
 
 .navbar-color{
 	/*background-color: #521616;*/
-	background-color: #E6E6EA;
+	background-color: #E6E6EA !important;
 	color: #260C1A !important;
 	<!-- #BD0303 !important-->
 }
@@ -89,3 +89,7 @@ footer.page-footer {
    float: right !important;
 }
 
+.collapsed-button {
+  background-color: #fff;
+  color: #260C1A !important;
+}

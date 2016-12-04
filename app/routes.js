@@ -943,7 +943,7 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 		failureFlash : true 
 	}));
 
-	app.get('/admin', function(req, res) {
+		app.get('/admin', function(req, res) {
 		if(req.isAuthenticated()) {
 			User.find({'user.role' : 'viewer'}, function(err, viewers){
 				var noOfViewers = viewers.length;
@@ -971,17 +971,49 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 					var noOfVideos = 0;
 					var videos_likes_map = new Map();
 					var videos_dislikes_map = new Map();
+					var courses_videos_map = new Map();
+					
+
 					for(var i=0; i < uploaders.length; i++){
 						noOfCourses += uploaders[i].user.courses_created.length;
+
 						for(var j=0; j<uploaders[i].user.courses_created.length; j++){
 							noOfVideos += uploaders[i].user.courses_created[j].videos.length;
+							var videos_comments_map = new Map();
+							var video_list = [];
+
 							for(var k=0; k<uploaders[i].user.courses_created[j].videos.length; k++){
-								videos_likes_map.set(uploaders[i].user.courses_created[j].videos[k].video_name, uploaders[i].user.courses_created[j].videos[k].video_likes.length);	
-								videos_dislikes_map.set(uploaders[i].user.courses_created[j].videos[k].video_name, uploaders[i].user.courses_created[j].videos[k].video_dislikes.length);	
-							
+
+								//no of comments for videos inside a course
+								if(null == uploaders[i].user.courses_created[j].videos[k].video_comments){
+									videos_comments_map.set(uploaders[i].user.courses_created[j].videos[k].video_name, 0);	
+								} else {
+									videos_comments_map.set(uploaders[i].user.courses_created[j].videos[k].video_name, uploaders[i].user.courses_created[j].videos[k].video_comments.length);	
+								}
+
+								//course name as key and list of videos as value
+								// video_list.push(uploaders[i].user.courses_created[j].videos[k]);
+								courses_videos_map.set(uploaders[i].user.courses_created[j].course_name, videos_comments_map);
+
+								//no of likes
+								if(null == uploaders[i].user.courses_created[j].videos[k].video_likes){
+									videos_likes_map.set(uploaders[i].user.courses_created[j].videos[k].video_name, 0);	
+								} else {
+									videos_likes_map.set(uploaders[i].user.courses_created[j].videos[k].video_name, uploaders[i].user.courses_created[j].videos[k].video_likes.length);	
+								}
+
+								//no of dislikes
+								if(null == uploaders[i].user.courses_created[j].videos[k].video_dislikes){
+									videos_dislikes_map.set(uploaders[i].user.courses_created[j].videos[k].video_name, 0);	
+								} else {
+									videos_dislikes_map.set(uploaders[i].user.courses_created[j].videos[k].video_name, uploaders[i].user.courses_created[j].videos[k].video_dislikes.length);	
+								}
+
 							}
 						}
 					}
+
+					
 			
 					res.render('admin_dashboard.html', {
 						no_of_viewers : noOfViewers,
@@ -990,7 +1022,8 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 						no_of_videos : noOfVideos,
 						courses_viewers_map : courses_viewers_map,
 						videos_likes_map : videos_likes_map,
-						videos_dislikes_map : videos_dislikes_map
+						videos_dislikes_map : videos_dislikes_map,
+						courses_videos_map : courses_videos_map
 
 					});
 				});
@@ -999,7 +1032,6 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 			res.render('admin_login.html');
 		}
 	});
-
 	app.post('/getusers', function(req, res) {
 		console.log(req.body);
 		var user_type = Object.keys(req.body)[0];

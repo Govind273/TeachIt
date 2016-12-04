@@ -76,6 +76,14 @@ footer.page-footer {
   background-image: url("/images/homepage02.jpg");
 }
 
+.viewerhomepage01 {
+  background-image: url("/images/image01.jpg");
+}
+
+.adminhomepage {
+  background-image: url("/images/home1.jpg");
+}
+
 .carousel-div1{
   padding-top: 250px;
 }
