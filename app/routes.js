@@ -163,7 +163,9 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 			if(request.user.user.role == 'uploader') {
 				response.redirect('/uploader');
 			} else {
-				var course_name = "test";
+				//var course_name = "test";
+				var course_name = Object.keys(request.body)[0];
+				console.log("NAME: " + course_name);
 
 				User.findOne({'user.courses_created.course_name' : course_name}, function(err, user) {
 					// console.log(user);
@@ -329,8 +331,12 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 
 
 	app.post('/enrollcourse', function(request, response) {
+		
 		var email = request.user.user.email;
+		console.log("Check this");
+		console.log(request.body);
 		var course_name = Object.keys(request.body)[0];
+		console.log(course_name);
 		
 		User.findOne({'user.email' : email}, function(err, user) {
 			var courses_enrolled = user.user.courses_enrolled;
@@ -370,8 +376,9 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 			});
 			} else {
 				User.findOne({ 'user.courses_created.course_name' : course_name}, function(err, user){
+					console.log(user);
 					var user = user.user;
-					var author = user.firstname + user.lastname;
+					var author = user.firstname + " " + user.lastname;
 					var paypal_email = user.paypal_email;
 					var coursename;
 					var coursedescription;
@@ -575,7 +582,7 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 
 	app.post('/enrolled', function(req,res) {
 		User.findOne({ 'user.email' :  req.user.user.email }, function(err, user) {
-			// console.log(user);
+			console.log("Name of course: "+req.body.course_name);
 			user.user.courses_enrolled.push(req.body.course_name);
 			user.markModified('user');
 			user.save();
@@ -1183,6 +1190,22 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 			}
 		});
 
+	});
+
+	app.get('/registeredcourses', function(req, res){
+		User.findOne({'user.email' : req.user.user.email}, function(err, user){
+			var courses_enrolled = user.user.courses_enrolled;
+			console.log(courses_enrolled);
+				User.find({ 'user.role' : 'uploader'}, function(err,user){
+					console.log(courses_enrolled);
+					res.render('viewer_registered_courses.html' , {
+						courses_enrolled : courses_enrolled,
+						all_users : user
+					});
+					
+				});
+			
+		})
 	});
 
 	/* Always place this at the bottom to handle all paths that do not exist.*/

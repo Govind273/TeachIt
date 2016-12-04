@@ -77,6 +77,12 @@ nav .input-field-search {
    padding-left: 35px;
 }
 
+.list-further-pad{
+   padding-top: 5px;
+   padding-bottom: 5px;
+   padding-left: 55px;
+}
+
 a {
   color: #260C1A !important;
 }
@@ -90,3 +96,39 @@ a {
   width: 640px;
 }
 
+.playlist-box {
+  padding-left: 100px;
+}
+
+.playlist-card {
+  margin: 0rem;
+}
+
+.comments-box {
+  width: 640px;
+}
+
+.video-box {
+  width: 640px;
+}
+
+.input-field label.active {
+    font-size: 1.8rem;
+    -webkit-transform: translateY(-140%);
+    transform: translateY(-70%);
+}
+
+.card .card-action-comments {
+  position: relative;
+  background-color: inherit;
+  border-top: 1px solid rgba(160, 160, 160, 0.2);
+  padding: 0px;
+}
+
+.update-profile-box {
+  padding-top: 100px;
+}
+
+.remove-border {
+  border-bottom: 0px solid #9e9e9e !important;
+}
