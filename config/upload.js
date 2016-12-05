@@ -17,7 +17,8 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
       callback(null, file.fieldname + '-' + Date.now());
     }
   });
-  var upload = multer({ storage : storage}).single('userPhoto');
+  // var upload = multer({ storage : storage}).single('userPhoto');
+  var upload = multer({ storage : storage}).array('userPhoto', 2);
 
   var gfs;
 
@@ -30,6 +31,7 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
   app.post('/addVideo',function(req,res){
 
       upload(req,res,function(err) {
+
           if(err) {
               console.log(err);
               return res.end("Error uploading file.");
@@ -37,7 +39,7 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
           
           // console.log(req.body);
           // console.log(req.file);
-          // console.log(req.files);
+          console.log(req.files);
 
           // console.log(req.file.path);
 
@@ -45,7 +47,7 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
           var fileduration;
   
 
-          ffmpeg(req.file.path)
+          ffmpeg(req.files[0].path)
             .on('filenames', function(filenames) {
               //console.log('Will generate ' + filenames.join(', '))
               tempfilenames = filenames;
@@ -57,10 +59,10 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
             .on('end', function() {
              // console.log('Screenshots taken');
           var writeStream = gfs.createWriteStream({
-              filename: req.file.originalname
+              filename: req.files[0].originalname
           });
 
-          fs.createReadStream(req.file.path).pipe(writeStream);
+          fs.createReadStream(req.files[0].path).pipe(writeStream);
           writeStream.on('close', function(file) {
             console.log(file.filename + ' written to DB');
           });
@@ -101,7 +103,7 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
           // console.log(marker);
 
           //Thumbnail vtt file creation
-          var vttfilename = req.file.originalname.substring(0, req.file.originalname.indexOf('.')) + ".vtt";
+          var vttfilename = req.files[0].originalname.substring(0, req.files[0].originalname.indexOf('.')) + ".vtt";
           fs.writeFile("./public/videos/"+vttfilename , thumbnail);
           // console.log("Thumbnail : "+thumbnail);
           var writeStream = gfs.createWriteStream({
@@ -113,7 +115,7 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
                 });
 
           //Marker vtt file creation
-          var markervttfilename = "Marker_" + req.file.originalname.substring(0, req.file.originalname.indexOf('.')) + ".vtt";
+          var markervttfilename = "Marker_" + req.files[0].originalname.substring(0, req.files[0].originalname.indexOf('.')) + ".vtt";
           fs.writeFile("./public/videos/"+markervttfilename , marker);
           // console.log("Marker : "+marker);
           var writeStream = gfs.createWriteStream({
@@ -126,13 +128,21 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
            
           for(var i=0; i<tempfilenames.length-1; i++){
             var writeStream = gfs.createWriteStream({
-                  filename: req.file.originalname + '-' + tempfilenames[i]
+                  filename: req.files[0].originalname + '-' + tempfilenames[i]
             });
               fs.createReadStream('./public/videos/screenshots/' + tempfilenames[i]).pipe(writeStream);
                writeStream.on('close', function(file) {
                     //do nothing
                 });
           }
+
+          var image_writeStream = gfs.createWriteStream({
+                  filename: req.files[1].filename
+          });
+          fs.createReadStream(req.files[1].path).pipe(image_writeStream);
+          image_writeStream.on('close', function(file) {
+              //do nothing
+          });
 
          
           var course_name = req.body.course_name;
@@ -164,11 +174,12 @@ module.exports = function(app, server, multer, mongoose, Grid, fs) {
                         newVideo.video_quiz_ans = false;
                       }
                       newVideo.video_keyowords = req.body.video_keyword;
-                      newVideo.video_filename = req.file.originalname;
+                      newVideo.video_filename = req.files[0].originalname;
                       newVideo.video_screenshots = tempfilenames;
                       newVideo.video_duration = fileduration;
                       newVideo.video_thumbnail_vttfile = vttfilename;
                       newVideo.video_marker_vttfile = markervttfilename;
+                      newVideo.video_image = req.files[1].filename;
                       currentCourse = courses[i];
                       // console.log(currentCourse);
                       user.user.courses_created[i].videos.push(newVideo);

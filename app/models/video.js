@@ -13,7 +13,8 @@ var videoSchema = mongoose.Schema({
 		video_marker_vttfile : String,
 		video_likes : { type: Array, "default" : []},
 		video_dislikes : {type: Array, "default" : []},
-		video_comments : { type: Array, "default" : []}
+		video_comments : { type: Array, "default" : []},
+		video_image : String
 });
 
 videoSchema.methods.updateCourse = function(request, response){
