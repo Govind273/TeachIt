@@ -129,7 +129,7 @@
       }
     </script>
     </head>
-    <body style="overflow-y: auto !important;">
+    <body class = "uploaderpage" style="overflow-y: auto !important;">
       <% include uploader_navbar.html %>
       <link href="css/uploader_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
@@ -140,9 +140,10 @@
 
         <div class="col s3">
           <div>
+          
           <ul class="collapsible popout" data-collapsible="accordion">
-            <li class="courses center">
-              <p><b><I>ALL COURSES</I></b> </p>
+            <li class="courses center collapsed-button">
+              <p><b><I>SPECIALIZATIONS</I></b> </p>
             </li>
             <%  for(var i=0; i<courses.length; i++) { %>
             <li>
@@ -152,7 +153,7 @@
                <%= courses[i].course_genre %>
               </div>
               <div class="collapsible-body">
-                <ul>
+                <ul class="collapsed-button">
                  
                   <li class="list-pad">
                   <form method="post" action='/editcourse'>

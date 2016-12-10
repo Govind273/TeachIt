@@ -133,4 +133,14 @@ a {
   border-bottom: 0px solid #9e9e9e !important;
 }
 
+.new-card-image {
+  height: 222px !important;
+  width: 222px !important;
+}
+
+.new-card-inner img {
+  border-radius: 2px 0 0 2px;
+  height: 222px !important;
+  width: 222px !important;
+}
 

@@ -18,7 +18,7 @@
     <title>You Enrolled to this Course!</title>
     </head>
 
-    <body>
+     <body class="viewerhomepage01">
         <% include viewer_navbar.html %>
         <link href="css/viewer_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
           
@@ -30,6 +30,7 @@
         <%    var current_video = videos[0] %>
         <% } %>
         <% var video_name = "/videos/" + current_video.video_filename %>
+
         <% var video_thumbnail_vttfile = "/videos/" + current_video.video_thumbnail_vttfile %>
         <% var video_marker_vttfile = "/videos/" + current_video.video_marker_vttfile %>
         <% var video_quiz_qn = current_video.video_quiz_qn %>
@@ -39,7 +40,7 @@
                 <div class="col s1">
                 </div>
                 <div class="col s6">
-                   <h1> <%= coursename %> </h1>
+                   <h1 class="white-text"> <%= coursename %></h1>
                 </div>
                 <div class="col s4">
                 <br /> <br /> <br />
@@ -48,7 +49,7 @@
                         <div class="col s12 m4 l10">
                         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                             <input type="hidden" name="cmd" value="_donations">
-                            <input type="hidden" name="business" value='<%= paypal_email %>'>
+                            <input type="hidden" name="business" value='shettya@umail.iu.edu'>
                             <input type="hidden" name="lc" value="US">
                             <input type="hidden" name="item_name" value='<%= coursename %>'>
                             <input type="hidden" name="no_note" value="0">
@@ -93,6 +94,7 @@
                                     clicked = true;
                                     jwplayer().pause();
                                     var bgdiv = document.createElement("div");
+
                                     var texdiv = document.createElement("div");
                                     var quizform = document.createElement("form");
                                     var quizquestion = document.createElement("p");
@@ -130,11 +132,11 @@
                                     quizquestion.innerHTML = ques;
                                     quizquestion.style.fontFamily = "arial,_sans";
                                     quizquestion.style.fontSize = "18px";
-                                    quizquestion.style.color = "#ffffff"
+                                    quizquestion.style.color = "#000"
 
                                     truebuttonlabel.innerHTML = 'TRUE';
                                     truebuttonlabel.setAttribute('for','true');
-                                    truebuttondiv.style.color = "#ffffff";
+                                    truebuttondiv.style.color = "#000";
                                     truebutton.name = 'quizanswer';
                                     truebutton.value = 'True';
                                     truebutton.type = 'radio';
@@ -143,7 +145,7 @@
 
                                     falsebuttonlabel.innerHTML = 'FALSE';
                                     falsebuttonlabel.setAttribute('for','false');
-                                    falsebuttondiv.style.color = "#ffffff"
+                                    falsebuttondiv.style.color = "#000"
                                     falsebutton.name = 'quizanswer';
                                     falsebutton.value = 'False';
                                     falsebutton.type = 'radio';
@@ -168,6 +170,7 @@
 
                                     theBody.appendChild(bgdiv); 
                                     bgdiv.appendChild(texdiv); 
+                                    texdiv.setAttribute('class','quiz-div');
                                     texdiv.appendChild(quizform);
                                     quizform.appendChild(breaktag);
                                     quizform.appendChild(quizquestion);
@@ -188,7 +191,7 @@
                                     var errordiv = document.createElement("div");
                                     errordiv.innerHTML = 'Incorrect Answer. Try again!';
                                     errordiv.style.visibility = "hidden";
-                                    errordiv.style.color = "#ffffff";
+                                    errordiv.style.color = "#000000";
                                     quizform.appendChild(errordiv);
                                     quizform.appendChild(breaktag);
                                     submit.onmouseup = function(){

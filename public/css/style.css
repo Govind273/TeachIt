@@ -101,11 +101,35 @@ footer.page-footer {
 }
 
 .viewerhomepage01 {
-  background-image: url("/images/image01.jpg");
+  background-image: url("/images/image02.jpg");
+}
+
+.uploaderpage {
+  background-image: url("/images/books-magazines-building-school.jpg");
+   background-size: 1349px 1000px;
+}
+
+.editpage {
+  background-image: url("/images/editpage.jpeg");
+   background-size: 1349px 1000px;
+}
+
+.createpage {
+  background-image: url("/images/edit.jpg");
+   background-size: 1349px 1000px;
+}
+
+.paypalpage {
+  background-image: url("/images/donation.jpeg");
+   background-size: 1349px 1000px;
+}
+
+.loginpage {
+  background-image: url("/images/homepage06.jpeg");
 }
 
 .adminhomepage {
-  background-image: url("/images/home1.jpg");
+  background-image: url("/images/admin.jpeg");
 }
 
 .carousel-div1{
@@ -222,4 +246,10 @@ footer.page-footer {
 
 .join-community-text {
   padding-top: 100px !important;
+}
+
+.quiz-div {
+  background-color: #fff;
+  color: #000;
+  text-align: center;
 }

@@ -15,7 +15,7 @@
     
 </head>
  
-<body class="homepage01">
+<body class="loginpage">
 
   <% include admin_navbar.html %>
   <link href="css/admin_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -24,8 +24,7 @@
   <div class="materialContainer update-profile-box">
         <div class="box row" style="display: inline-block;  border: 1px solid #EEE;">
           <div class="title color-green">Admin Register</div>
-            <form method="POST" action="/register">
-                  <input type="hidden" name="action" value="register"/>
+            <form method="POST" action="/adminregister">
             <div class="input">
             <label for="textfield_new_firstname">First Name</label>
             <input type="text" id="textfield_new_firstname" name="firstname">

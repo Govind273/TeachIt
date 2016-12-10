@@ -341,6 +341,7 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 		User.findOne({'user.email' : email}, function(err, user) {
 			var courses_enrolled = user.user.courses_enrolled;
 			var paypal_email = user.user.paypal_email;
+			console.log(paypal_email);
 			if(courses_enrolled.indexOf(course_name) > -1) {
 				User.findOne({ 'user.courses_created.course_name' : course_name}, function(err, user){
 				console.log("Found uploader!!");
@@ -448,6 +449,7 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 							break;
 						}
 					}
+					console.log(paypal_email);
 
 					
 					response.render('viewer_enroll_course.html', {

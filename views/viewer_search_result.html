@@ -18,7 +18,7 @@
 
     </head>
 
-   <body class="homepage01">
+   <body class="viewerhomepage01">
       <% include viewer_navbar.html %>
       <link href="css/viewer_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
@@ -51,12 +51,24 @@
         </div>
 
         <div class="col s10">
-          <div class="card playlist-card">
+          <div class="card playlist-card"> 
             <div class="card-content">
                 <% for(var i=0; i<search_result.length; i++) { %>  
-                <div class="card playlist-card">
-                  <div class="card-content">
-                        <% if(search_result[i].type === 'course') { %>
+          
+                <div class="card horizontal playlist-card">
+                  <div class="new-card-image">
+                  <div class="new-card-inner">
+                    <% if(search_result[i].type === 'course') { %>
+                    <img src="/images/courseicon.jpeg">
+                    <% } else {%>
+                    <img src="/images/videoicon.jpg">
+                    <% } %>
+                  </div>
+                  </div>
+
+                  <div class="card-stacked">
+                    <div class="card-content">
+                          <% if(search_result[i].type === 'course') { %>
                             <form action="/enrollcourse" method="POST">
                               <p> Course: </p>
                               <button type="submit" class="waves-effect btn-flat" name='<%= search_result[i].course_details.course_name %>'>
@@ -74,10 +86,11 @@
                                 <input type="text" name="result_video" value='<%= video_string %>' hidden />
                             </form>
                           <% } %>
+                    </div>
                   </div>
                 </div>
-               <br/>
-                 <% } %>
+                <br/>
+                <% } %> 
             </div>
           </div>
         </div>
