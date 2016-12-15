@@ -1,3 +1,3 @@
 module.exports = {
-	'url' : 'ds157187.mlab.com:57187/teachitdb' 
+	'url' : 'mongodb://jash:jash@ds157187.mlab.com:57187/teachitdb' 
 };

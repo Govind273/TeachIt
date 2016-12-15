@@ -403,8 +403,8 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 							video_quiz_qn = video.video_quiz_qn;
 							video_quiz_ans = video.video_quiz_ans;
 							screenshots = video.video_screenshots;
-							console.log(video_quiz_ans);
-
+							// console.log(video_quiz_ans);
+							console.log(video_name);
 								
 							var fs_write_stream = fs.createWriteStream(DOWNLOAD_DIR+video_name);
 							//read from mongodb
@@ -450,7 +450,7 @@ module.exports = function(app, passport,server, mongoose, Grid, fs) {
 							break;
 						}
 					}
-					console.log(paypal_email);
+
 
 					
 					response.render('viewer_enroll_course.html', {
