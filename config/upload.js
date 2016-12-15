@@ -2,10 +2,12 @@ var User = require('../app/models/user');
 var CourseCreated = require('../app/models/course_created');
 var Video = require('../app/models/video');
 var ffmpeg = require('fluent-ffmpeg');
+var configDB = require('./database.js');
+
 module.exports = function(app, server, multer, mongoose, Grid, fs) {
 
   var Schema = mongoose.Schema;
-  mongoose.createConnection('mongodb://localhost/teachItDB');
+  mongoose.createConnection(configDB.url);
   var conn = mongoose.connection;
   Grid.mongo = mongoose.mongo;
 
